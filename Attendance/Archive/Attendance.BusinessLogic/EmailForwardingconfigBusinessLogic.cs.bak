@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Attendance.Model;
+using Attendance.Repository;
+
+namespace Attendance.BusinessLogic
+{
+    public class EmailForwardingconfigBusinessLogic
+    {
+        EmailForwardingconfigRepository objREPO = new EmailForwardingconfigRepository();
+        public string SaveDetails(Emailforwordconfigmodel model)
+        {
+            return objREPO.SaveEmailForwardData(model);
+        }
+        public List<Getemailforwaordconfigmodel> GetDetails()
+        {
+            return objREPO.GetDetails();
+        }
+        public Getemailforwaordconfigmodel Edit(string ID)
+        {
+            return objREPO.Edit(ID);
+        }
+
+        public List<LeaveTypeListForHoliday> GetLeaveTypesForHolidayMaster()
+        {
+            var repo = new HolidayRepository();
+            var lst = repo.GetLeaveTypesForHolidayMaster();
+            if (lst.Count > 0)
+            {
+                return lst;
+            }
+            else
+            {
+                return new List<LeaveTypeListForHoliday>();
+            }
+        }
+
+        public List<LeaveTypeListForHoliday> GetLocationList()
+        {
+            var lst = objREPO.GetLocationList();
+            if (lst.Count>0)
+            {
+                return lst;
+            }
+            else
+            {
+                return new List<LeaveTypeListForHoliday>();
+            }
+        }
+    }
+}

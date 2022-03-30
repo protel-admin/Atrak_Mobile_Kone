@@ -1,0 +1,60 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Attendance.Model;
+using Attendance.BusinessLogic;
+using Attendance.Repository;
+
+namespace Attendance.BusinessLogic
+{
+    public class LaterOffDateBusinessLogic
+    {
+        public void DeleteLaterOffDate(string Id)
+        {
+            var repo = new LaterOffDateRepository();
+            repo.DeleteLaterOffDate(Id);
+        }
+
+        public void SaveLaterOffDate(LaterOffDate data)
+        {
+            var repo = new LaterOffDateRepository();
+            repo.SaveLaterOffDate(data);
+        }
+
+        public int LaterOffAlreadyApplied(string LaterOffReqDate)
+        {
+            var repo = new LaterOffDateRepository();
+            return repo.LaterOffAlreadyApplied(LaterOffReqDate);
+        }
+
+        public int LaterOffAlreadyApplied(int Id)
+        {
+            var repo = new LaterOffDateRepository();
+            return repo.LaterOffAlreadyApplied(Id);
+        }
+
+        public List<LaterOffDateList> GetLaterOffDateList()
+        {
+            var repo = new LaterOffDateRepository();
+            var lst = repo.GetLaterOffDateList();
+            return lst;
+        }
+
+        public List<CompanyList> GetCompanyList()
+        {
+            var repo = new LaterOffDateRepository();
+            var lst = repo.GetCompanyList();
+            return lst;
+        }
+
+        public LaterOffDate GetData(string Id)
+        {
+            var repo = new LaterOffDateRepository();
+            var dat = repo.GetData(Id);
+            return dat;
+        }
+
+    }
+}

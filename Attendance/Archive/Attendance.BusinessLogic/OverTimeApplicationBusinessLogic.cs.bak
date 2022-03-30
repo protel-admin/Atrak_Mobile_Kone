@@ -1,0 +1,24 @@
+﻿using Attendance.Model;
+using Attendance.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Attendance.BusinessLogic
+{
+    public class OverTimeApplicationBusinessLogic 
+    {
+        OverTimeRepository Repo = new OverTimeRepository();
+        public List<RAOTRequestApplication> GetAppliedOverTimeRequestForMyTeam(string StaffId)
+        {
+            return Repo.OTRequestApplication(StaffId);
+        }
+        public string CancelApplication(string Id)
+        {
+            OverTimeRepository Repo = new OverTimeRepository();
+            return Repo.CancelApplication(Id);
+        }
+    }
+}

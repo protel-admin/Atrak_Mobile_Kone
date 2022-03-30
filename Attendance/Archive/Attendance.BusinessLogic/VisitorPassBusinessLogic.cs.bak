@@ -1,0 +1,168 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
+using Attendance.Model;
+using Attendance.Repository;
+using System.Web.Mvc;
+
+
+namespace Attendance.BusinessLogic
+{
+    public class VisitorPassBusinessLogic
+    {
+
+        //public string save(VisitorPass model)
+        //{
+        //    var repo = new VisitorPassRepository();
+        //    return repo.Save(model);
+        //}
+
+        public StaffView GetStaffDetails(string Id, string IdType)
+        {
+            var repo = new VisitorPassRepository();
+            return repo.GetStaffDetails(Id, IdType);
+        }
+
+        public string SaveVisitTransaction(VisitAppointment Model)
+        {
+            var repo = new VisitorPassRepository();
+            var VisitId = repo.SaveVisitTransaction(Model);
+            return VisitId;
+        }
+
+        //public List<VisitorPassView> GetAppointmentList(string StaffId)
+        //{
+        //    var repo = new VisitorPassRepository();
+        //    var lst = repo.GetAppointmentList(StaffId);
+        //    return lst;
+        //}
+
+        //public List<VisitorPassView> VisitorDetails(string PhoneNumber)
+        //{
+        //    var repo = new VisitorPassRepository();
+        //    var lst = repo.VisitorDetails(PhoneNumber);
+        //    return lst;
+        //}
+
+        public void CancelVisitorPass(string Id)
+        {
+            var repo = new VisitorPassRepository();
+            repo.CancelVisitorPass(Id);
+        }
+
+        public VisitorDetails GetVisitorDetails(string PhoneNumber)
+        {
+            var repo = new VisitorPassRepository();
+            var Data = repo.GetVisitorDetails(PhoneNumber);
+            return Data;
+        }
+
+        public List<SelectListItem> GetVisitPurposeList()
+        {
+            var repo = new VisitorPassRepository();
+            var lst = repo.GetVisitPurposeList();
+        
+            var items = new List<SelectListItem>();
+
+            foreach(var l in lst)
+            {
+                items.Add(new SelectListItem()
+                {
+                    Value = l.VisitPurposeID.ToString(),
+                    Text = l.Description
+                });
+            }
+            
+            return items;
+        }
+
+        public List<SelectListItem> GetVisitorTypeList()
+        {
+            var repo = new VisitorPassRepository();
+            var lst = repo.GetVisitorTypeList();
+            var items = new List<SelectListItem>();
+
+            foreach (var l in lst)
+            {
+                items.Add(new SelectListItem()
+                {
+                    Value = l.VisitorTypeID.ToString(),
+                    Text = l.Description
+                });
+            }
+            return items;
+        }
+
+        public List<SelectListItem> GetVisitingAreaList()
+        {
+            var repo = new VisitorPassRepository();
+            var lst = repo.GetVisitingAreaList();
+            var items = new List<SelectListItem>();
+
+            foreach (var l in lst)
+            {
+                items.Add(new SelectListItem()
+                {
+                    Value = l.WaitLocationID.ToString(),
+                    Text = l.Description
+                });
+            }
+            return items;
+        }
+
+        public List<SelectListItem> GetReportingManagersOfDepartment(string DepartmentId)
+        {
+            var repo = new VisitorPassRepository();
+            var lst = repo.GetReportingManagersOfDepartment(DepartmentId);
+            var items = new List<SelectListItem>();
+
+            foreach (var l in lst)
+            {
+                items.Add(new SelectListItem()
+                {
+                    Value = l.ReportingManagerId,
+                    Text = l.ReportingManagerName
+                });
+            }
+            return items;
+        }
+
+        public List<PermittedMaterialList> GetPermittedMaterialList()
+        {
+            var repo = new VisitorPassRepository();
+            var lst = repo.GetPermittedMaterialList();
+
+            //var items = new List<SelectListItem>();
+
+            //foreach (var l in lst)
+            //{
+            //    items.Add(new SelectListItem()
+            //    {
+            //        Value = l.PermittedMaterialId.ToString(),
+            //        Text = l.PermittedMaterialName
+            //    });
+            //}
+
+            return lst;
+        }
+        
+        
+        
+        public CellNo GetCellNo(string staffid)
+        {
+            var repo = new VisitorPassRepository();
+            var so = repo.GetCellNo(staffid);
+            return so;
+        }
+
+        public void GetVisitorPassDetails(VisitAppointment model, string SlNo)
+        {
+            var repo = new VisitorPassRepository();
+            repo.GetVisitorPassDetails(model, SlNo);
+        }
+    }
+}

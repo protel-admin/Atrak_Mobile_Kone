@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Attendance.Model;
+using Attendance.Repository;
+
+namespace Attendance.BusinessLogic
+{
+    public class VisitorPassListBusinessLogic
+    {
+        public List<VisitAppointment> GetAppointmentList(string StaffId)
+        {
+            var repo = new VisitorPassRepository();
+            var lst = repo.GetAppointmentList(StaffId);
+            return lst;
+        }
+    }
+}

@@ -1,0 +1,481 @@
+﻿using Attendance.Model;
+using Attendance.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+
+namespace Attendance.BusinessLogic
+{
+    public class CommonBusinessLogic
+    {
+        //RAJESH : SHould we check the parameters with RALEaveRequestApplication ValidateLeaveApplication() ?
+        public string ValidateApplication(string StaffId, string FromDate, string ToDate, string LeaveTypeId, decimal LeaveBalance)
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.ValidateApplication(StaffId, FromDate, ToDate, LeaveTypeId, LeaveBalance);
+            }
+        }
+
+        public string ValidateApplicationForPayDate(DateTime ApplicationStartDate, DateTime ApplicationEndDate)
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+        {
+                return commonRepository.ValidateApplicationForPayDate(ApplicationStartDate, ApplicationEndDate);
+            }
+
+        }
+
+        public bool IfUserHasLeafs(string StaffId)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.IfUserHasLeafs(StaffId);
+            }
+        }
+
+        public List<SelectListItem> GetRoleList()
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return ConvertRoleListToListItem(commonRepository.GetRoleList());
+            }
+
+        }
+
+        public List<SelectListItem> ConvertRoleListToListItem(List<RoleList> lst)
+        {
+            var items = new List<SelectListItem>();
+
+            items = lst.Select(d => new SelectListItem()
+            {
+                Text = d.Name,
+                Value = d.Id.ToString(),
+                Selected = true
+            }).ToList();
+
+            return items;
+        }
+
+        public string GetScreens(int UserRoleId)
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetScreens(UserRoleId);
+            }
+
+        }
+
+        public LoggedInUserDetails GetDomainIdBasedDetails(string DomainId)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetDomainIdBasedDetails(DomainId);
+            }
+        }
+
+        public LoggedInUserDetails GetUserIdBasedDetails(string StaffId)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetUserIdBasedDetails(StaffId);
+            }
+        }
+
+        public void ApplicationApprovalRejection(string ApproverId, string ApplicationApprovalId, bool Approve)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                commonRepository.ApplicationApprovalRejection(ApproverId, ApplicationApprovalId, Approve);
+            }
+        }
+
+        public void SendEmailMessage(string pFrom, string pTo, string pCC, string pBCC, string EmailSubject, string EmailBody)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                commonRepository.SendEmailMessage(pFrom, pTo, pCC, pBCC, EmailSubject, EmailBody);
+        }
+        }
+
+       
+
+        public string GetAccessLevel(string Staffid)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetAccessLevel(Staffid);
+            }
+
+        }
+
+        public DateTime GetAppRestrictionDate(string StaffId)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetRestrictionAppDate(StaffId);
+            }
+
+        }
+
+        public List<SubordinateList> GetSubordinateTreeList(string StaffId)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetSubordinateTreeList(StaffId);
+            }
+        }
+
+        public List<HeadCountViewModel> GetHeadCountDashlet(string ReportingManagerId)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetHeadCountDashlet(ReportingManagerId);
+            }
+        }
+
+ public List<HeadCountOverAll> GetHeadCountData(string GroupNo, string LocId, string DeptId, string DesgId, string GradeId, string ShiftId, string StaffId, string Date)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetHeadCountData(GroupNo, LocId, DeptId, DesgId, GradeId, ShiftId, StaffId, Date);
+            }
+        }
+
+        public List<HeadCountOverAll> GetHeadCountDataNew(string GroupNo, string DeptId, string DesgId, string GradeId, string ShiftId, string StaffId, string Date)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetHeadCountDataNew(GroupNo, DeptId, DesgId, GradeId, ShiftId, StaffId, Date);
+            }
+        }
+
+        public List<UserList> ReqisterList()
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.ReqisterList();
+            }
+        }
+
+        public string GetStaffName(string StaffId)
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetStaffName(StaffId);
+            }
+
+        }
+
+
+        public string UserCreationTrigger(string StaffId, string UserName, string Password)
+        {
+
+            string BaseAddress = string.Empty;
+            string StaffEmailId = string.Empty;
+            string StaffName = string.Empty;
+
+            //##############################################################################################################
+            //CODE BLOCK TO SEND EMAIL INTIMATION TO THE REPORTING MANAGER AND AN ACKNOWLEDGEMENT TO THE SENDER WHO RAISED 
+            //  THE APPLICATION.
+            //##############################################################################################################
+
+            try
+            {
+                //try to get the server ip from the web.config file.
+                BaseAddress = System.Configuration.ConfigurationManager.AppSettings["BASEADDRESS"].ToString();
+                BaseAddress = BaseAddress + '"';                //check if the server ip address has been given or not.
+                if (string.IsNullOrEmpty(BaseAddress) == true) //if the server ip address has not been given then...
+                    //throw exception.
+                    throw new Exception("BaseAddress parameter is blank in web.config file.");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            //get the emailid of the staff who raises the leave application.
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+
+                StaffEmailId = commonRepository.GetEmailIdOfEmployee(StaffId);
+            //get the name of the staff.
+                StaffName = commonRepository.GetStaffName(StaffId);
+            //get the name of the reporting manager.
+
+            var staffid = StaffId;
+
+            // Changes made by Aarthi on 09/03/2020 
+            //check if the reporting manager has an email id.
+            if (string.IsNullOrEmpty(StaffEmailId).Equals(false)) //if the reporting manager does not have an email id then...
+            {
+                //check if the staff has an email id.
+                var EmailStr = string.Empty;
+                EmailStr = " <html><head><title></title></head><body><p style=\"font-family:tahoma; font-size:9pt;\">Dear " + StaffName + ",</br></br>Greetings!" +
+                            " </p><p style=\"font-family:tahoma; font-size:9pt;\">Welcome to Atrak Leave Management System.</br>" +
+                            "  Your login Id and Password has been generated by system." +
+                            " Please find the below credentials to access Leave Management System.</br></br>UserName:&nbsp;&nbsp" + UserName + "" +
+                            "<br/>Password:&nbsp;&nbsp" + Password + "</br></br>To Login into Leave Management System please click on " +
+                            "the below link:</br></br> <a href=\"" + BaseAddress + ">" + BaseAddress + "</a> </p></body></html>";
+
+                    commonRepository.SendEmailMessage("", StaffEmailId, "", "", "Atrak Leave Management credential of " + StaffName + " - (" + StaffId + ")", EmailStr);
+                }
+            }
+            return "OK";
+        }
+
+        public string SaveUserDetails(string StaffId, string UserName, string Password, string LoggedInUser)
+        {
+            try
+            {
+                var AUT = new AtrakUserDetails();
+                var repo = new CommonRepository();
+                AUT.StaffId = StaffId;
+                AUT.UserName = UserName;
+                AUT.Password = Password;
+                AUT.IsActive = true;
+                AUT.CreatedOn = DateTime.Now;
+                AUT.CreatedBy = LoggedInUser;
+                using (CommonRepository commonRepository = new CommonRepository())
+                {
+                    commonRepository.SaveUserDetails(AUT);
+                }
+                return "OK";
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }
+
+        }
+
+
+        public string GetOfficialEmail(string StaffId)
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetOfficialEmail(StaffId);
+            }
+
+        }
+
+        public string GetUseName(string StaffId)
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetUserName(StaffId);
+            }
+
+        }
+
+        public string CheckIsEmployeeExists(string StaffId)
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.CheckIsEmployeeExists(StaffId);
+            }
+
+        }
+
+        public string SendPasswordDetailsToUserMail(string StaffId, string Password)
+        {
+            try
+            {
+                using (CommonRepository commonRepository = new CommonRepository())
+                {
+                    return commonRepository.SendPasswordDetailsToUserMail(StaffId, Password);
+                }
+
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        public string SendPasswordDetailsToHRMail(string LoggedUser, string StaffId, string Password)
+        {
+            try
+            {
+                using (CommonRepository commonRepository = new CommonRepository())
+                {
+                    return commonRepository.SendPasswordDetailsToHRMail(LoggedUser, StaffId, Password);
+
+                }
+
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        public string GetPasswordForUserName(string StaffId)
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetPasswordForUserName(StaffId);
+        }
+
+        }
+
+        public string Decrypt(string password)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.Decrypt(password);
+            }
+            
+        }
+
+        public string SavePasswordChangeInAtrakUserDetails(string StaffId, string OldPassword, string NewPassword, string UserName, string LoggedInUser)
+        {
+            try
+            {
+                var PCD = new ChangeDetailsPW();
+                var repo = new CommonRepository();
+                PCD.StaffId = StaffId;
+                PCD.UserName = UserName;
+                PCD.OldPassword = OldPassword;
+                PCD.NewPassword = NewPassword;
+                PCD.IsActive = true;
+                PCD.CreatedOn = DateTime.Now;
+                PCD.CreatedBy = LoggedInUser;
+                using (CommonRepository commonRepository = new CommonRepository())
+                {
+                    commonRepository.SavePasswordChangeInAtrakUserDetails(PCD);
+
+                }
+                return "OK";
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.Message);
+            }
+        }
+
+        public string GetEmailFromAdd()
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetEmailFromAdd();
+            }
+
+        }
+
+        public string GetEmailCCAdd()
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetEmailCCAdd();
+            }
+
+        }
+
+        public string GetEmailFromAdd(string StaffId)
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetOfficialEmail(StaffId);
+            }
+
+        }
+
+        public string Decode(string Reqid)
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.Decode(Reqid);
+            }
+
+        }
+
+        public string GetPolicyValue(string PolicyId)
+        {
+
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetPolicyValue(PolicyId);
+            }
+
+        }
+        // Changes Made by aarthi on 28/2/2020 for CompOff Availing
+        public string GetEmailIdOfEmployee()
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetCommonSenderEmailIdFromEmailSettings();
+            }
+
+        }
+
+        public void SaveDutyRoosterSettings(ShiftPattern sp, string dutyRooster, string OldDutyRooster)
+        {
+            using (DutyRoosterRepository dutyRoosterRepository = new DutyRoosterRepository())
+            {
+                dutyRoosterRepository.SaveDutyRoosterSettings(sp, dutyRooster, OldDutyRooster);
+            }
+        }
+
+        public string GetShiftPatterns(string id)
+        {
+            using (DutyRoosterRepository dutyRoosterRepository = new DutyRoosterRepository())
+            {
+                return dutyRoosterRepository.GetShiftPatterns(id);
+            }
+        }
+        public List<DutyRoosterView> GetAllDutyRoosters()
+        {
+            using (DutyRoosterRepository dutyRoosterRepository = new DutyRoosterRepository())
+            {
+                return dutyRoosterRepository.GetAllDutyRoosters();
+            }
+        }
+
+        public string GetReportingManager(string staffid)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetReportingManager(staffid);
+            }
+        }
+
+        public string GetStaffReviewer(string Id)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetStaffReviewer(Id);
+        }
+        }
+
+        public string GetEmailIdOfEmployee(string StaffId)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.GetEmailIdOfEmployee(StaffId);
+            }
+        }
+        public int CheckEmployeeExistingOrNot(string StfId)
+        {
+            using (CommonRepository commonRepository = new CommonRepository())
+            {
+                return commonRepository.CheckEmployeeExistingOrNot(StfId);
+            }
+        }
+      
+    }
+}

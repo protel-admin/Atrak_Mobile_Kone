@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5FBD5092-4F5A-40F3-9E4C-A491FB044B18}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Attendance.Model</RootNamespace>
+    <AssemblyName>Attendance.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbsenceApproval.cs" />
+    <Compile Include="AbsenceType.cs" />
+    <Compile Include="AdditionalField.cs" />
+    <Compile Include="AllViews.cs" />
+    <Compile Include="AlternativePersonAssign.cs" />
+    <Compile Include="ApplicationApproval.cs" />
+    <Compile Include="ApplicationEntry.cs" />
+    <Compile Include="ApprovalStatus.cs" />
+    <Compile Include="Association.cs" />
+    <Compile Include="AtrakUserDetails.cs" />
+    <Compile Include="AttachDetachLog.cs" />
+    <Compile Include="AttendanceControlTable.cs" />
+    <Compile Include="AttendanceData.cs" />
+    <Compile Include="AttendanceReaders.cs" />
+    <Compile Include="BenchReportingManager.cs" />
+    <Compile Include="BloodGroup.cs" />
+    <Compile Include="Branch.cs" />
+    <Compile Include="CardBlock.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="ChangeAuditLog.cs" />
+    <Compile Include="Company.cs" />
+    <Compile Include="CompensatoryOff.cs" />
+    <Compile Include="CostCentre.cs" />
+    <Compile Include="CustomAttendanceData.cs" />
+    <Compile Include="DefaultShift.cs" />
+    <Compile Include="Department.cs" />
+    <Compile Include="Designation.cs" />
+    <Compile Include="Division.cs" />
+    <Compile Include="DocumentUpload.cs" />
+    <Compile Include="Door.cs" />
+    <Compile Include="EmailForwardingconfig.cs" />
+    <Compile Include="EmailSendLog.cs" />
+    <Compile Include="EmailSettings.cs" />
+    <Compile Include="EmployeeGroup.cs" />
+    <Compile Include="EmployeeGroupShiftPatternTxn.cs" />
+    <Compile Include="EmployeeGroupTxn.cs" />
+    <Compile Include="EmployeeLeaveAccount.cs" />
+    <Compile Include="EmployeePhoto.cs" />
+    <Compile Include="EmployeeShiftPlan.cs" />
+    <Compile Include="ErrorLog.cs" />
+    <Compile Include="ExcelImport.cs" />
+    <Compile Include="FinancialYear.cs" />
+    <Compile Include="Grade.cs" />
+    <Compile Include="GroupAssociation.cs" />
+    <Compile Include="HolidayFixedDay.cs" />
+    <Compile Include="HolidayGroup.cs" />
+    <Compile Include="HolidayGroupTxn.cs" />
+    <Compile Include="Holiday.cs" />
+    <Compile Include="HolidayZone.cs" />
+    <Compile Include="HolidayZoneTxn.cs" />
+    <Compile Include="key.cs" />
+    <Compile Include="LateComing.cs" />
+    <Compile Include="LaterOff.cs" />
+    <Compile Include="LaterOffDate.cs" />
+    <Compile Include="LeaveApplication.cs" />
+    <Compile Include="LeaveApplicationWabco.cs" />
+    <Compile Include="LeaveCreditDebitReason.cs" />
+    <Compile Include="LeaveDebits.cs" />
+    <Compile Include="LeaveDuration.cs" />
+    <Compile Include="LeaveGroup.cs" />
+    <Compile Include="LeaveGroupTxn.cs" />
+    <Compile Include="LeaveReason.cs" />
+    <Compile Include="LeaveTransactionType.cs" />
+    <Compile Include="LeaveType.cs" />
+    <Compile Include="LeaveTypeMaster.cs" />
+    <Compile Include="Location.cs" />
+    <Compile Include="LogItem.cs" />
+    <Compile Include="MaintenanceOff.cs" />
+    <Compile Include="ManualPunch.cs" />
+    <Compile Include="ManualShiftChangeGrid.cs" />
+    <Compile Include="MaritalStatus.cs" />
+    <Compile Include="MOffYear.cs" />
+    <Compile Include="ODApplication.cs" />
+    <Compile Include="OnDutyDuration.cs" />
+    <Compile Include="OTApplication.cs" />
+    <Compile Include="OTApplicationEntry.cs" />
+    <Compile Include="ChangeDetailsPW.cs" />
+    <Compile Include="OTBulkUpload.cs" />
+    <Compile Include="PeopleSoftDump.cs" />
+    <Compile Include="PermissionOff.cs" />
+    <Compile Include="PermissionTxn.cs" />
+    <Compile Include="PermissionType.cs" />
+    <Compile Include="PrefixSuffixSetting.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reader.cs" />
+    <Compile Include="RelationType.cs" />
+    <Compile Include="ReportsByEmail.cs" />
+    <Compile Include="ReportToBeSent.cs" />
+    <Compile Include="ReportToBeSentTxn.cs" />
+    <Compile Include="RequestApplication.cs" />
+    <Compile Include="RestrictedHolidays.cs" />
+    <Compile Include="RHApplication.cs" />
+    <Compile Include="Rule.cs" />
+    <Compile Include="RuleGroup.cs" />
+    <Compile Include="RuleGroupTxn.cs" />
+    <Compile Include="Salutation.cs" />
+    <Compile Include="Screen.cs" />
+    <Compile Include="SecurityGroup.cs" />
+    <Compile Include="SecurityGroupTxns.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="ShiftChangeApplication.cs" />
+    <Compile Include="ShiftExtensionAndDoubleShift.cs" />
+    <Compile Include="ShiftExtensionViewModel.cs" />
+    <Compile Include="ShiftPattern.cs" />
+    <Compile Include="ShiftPatternTxn.cs" />
+    <Compile Include="ShiftPlantTxn.cs" />
+    <Compile Include="ShiftPostingPattern.cs" />
+    <Compile Include="ShiftRelay.cs" />
+    <Compile Include="Shifts.cs" />
+    <Compile Include="ShiftsImportData.cs" />
+    <Compile Include="SMaxTransaction.cs" />
+    <Compile Include="SqlExecute.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Staff.cs" />
+    <Compile Include="StaffEditRequest.cs" />
+    <Compile Include="StaffEducation.cs" />
+    <Compile Include="StaffFamily.cs" />
+    <Compile Include="StaffOfficial.cs" />
+    <Compile Include="StaffOfficialInformationForApi.cs" />
+    <Compile Include="StaffPersonal.cs" />
+    <Compile Include="StaffStatus.cs" />
+    <Compile Include="SubordinateTree.cs" />
+    <Compile Include="SwipeData.cs" />
+    <Compile Include="TeamHierarchy.cs" />
+    <Compile Include="Testing.cs" />
+    <Compile Include="UploadControlTable.cs" />
+    <Compile Include="ViewApproval.cs" />
+    <Compile Include="VisitorPassApprovalHierarchy.cs" />
+    <Compile Include="Volume.cs" />
+    <Compile Include="WeeklyOffs.cs" />
+    <Compile Include="WorkingDayPattern.cs" />
+    <Compile Include="Workstation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

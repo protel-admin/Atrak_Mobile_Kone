@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
+using Attendance.Repository;
+using Attendance.Model;
+
+namespace Attendance.BusinessLogic
+{
+    public class RHEntryBusinessLogic
+    {
+        public List<RestrictedHolidayList> GetRestrictedHolidayList()
+        {
+            var repo = new RHEntryRepository();
+            var lst = repo.GetRestrictedHolidayList();
+            return lst;
+        }
+
+        public void SaveRestrictedHolidayEntry(RestrictedHolidays data)
+        {
+            var repo = new RHEntryRepository();
+            repo.SaveRestrictedHolidayEntry(data);
+        }
+
+    }
+}

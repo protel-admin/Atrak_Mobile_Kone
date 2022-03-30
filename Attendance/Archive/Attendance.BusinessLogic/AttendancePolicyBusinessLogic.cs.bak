@@ -1,0 +1,77 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
+using Attendance.Model;
+using Attendance.Repository;
+
+namespace Attendance.BusinessLogic
+{
+    public class AttendancePolicyBusinessLogic
+    {
+
+        public List<MapRuletoRuleGroupList> GetAllUserRulegroup()
+        {
+            var CompRepo = new AttendancePolicyRepository();
+            return CompRepo.GetAllUserRulegroup();
+        }
+
+        public List<CompanyRule> GetCompany()
+        {
+            var repo = new AttendancePolicyRepository();
+            var lst = repo.GetCompany();
+            return lst;
+        }
+
+        public List<RuleGroup1> GetAllRuleGroupTxsValues(Int32 RuleId)
+        {
+            var repo = new AttendancePolicyRepository();
+            var data = repo.GetAllRuleGroupTxsValues(RuleId);
+            return data;
+        }
+
+        public List<RuleGroupTxnsList> GetAllRule()
+        {
+            var CompRepo = new AttendancePolicyRepository();
+            return CompRepo.GetAllRule();
+        }
+
+        public List<RuleGroupTxnsList> GetRule(string id)
+        {
+            var CompRepo = new AttendancePolicyRepository();
+            return CompRepo.GetRule(id);
+        }
+
+
+        public List<MapRuletoRuleGroupList> GetAllRuleGroupTxns(string id, string Staffid)
+        {
+            var CompRepo = new AttendancePolicyRepository();
+            return CompRepo.GetAllRuleGroupTxns(id, Staffid);
+        }
+
+        public string SaveRuleGroupTxnsInfos(RuleGroupTxn sgt)
+        {
+            var repo = new AttendancePolicyRepository();
+            repo.SaveRuleGroupTxnsInfo(sgt);
+            return null;
+        }
+
+        public List<SelectListItem> GetAllCompany()
+        {
+            var repo = new AttendancePolicyRepository();
+            var lst = repo.GetAllCompany();
+            var items = new List<SelectListItem>();
+
+            items = lst.Select(d => new SelectListItem()
+            {
+                Text = d.Name,
+                Value = d.Id.ToString(),
+                Selected = false
+            }).ToList();
+            return items;
+        }
+    }
+}

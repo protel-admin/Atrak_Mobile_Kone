@@ -1,0 +1,46 @@
+﻿using Attendance.Model;
+using Attendance.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Attendance.BusinessLogic
+{
+    public class LaterOffBusinessLogic
+    {
+        //public List<LaterOffList> GetAllLaterOff()
+        //{
+        //    var repo = new LaterOffRepository();
+        //    var lst = repo.GetAllLaterOff();
+        //    return lst;
+        //}
+
+        public void CancelLaterOff(string ApplId)
+        {
+            var repo = new LaterOffRepository();
+            repo.CancelLaterOff(ApplId);
+        }
+
+        public string SaveCoffInfo(LaterOff LaterOff)
+        {
+            var repo = new LaterOffRepository();
+            repo.SaveLaterOffInfo(LaterOff);
+            return null;
+        }
+
+        public string Getapproval(string Id)
+        {
+            var repo = new CommonRepository();
+            return repo.GetApprovalStatus(Id);
+        }
+
+        public List<ValidLaterOffDates> GetValidLaterOffDates(string StaffId)
+        {
+            var repo = new LaterOffRepository();
+            var lst = repo.GetValidLaterOffDates(StaffId);
+            return lst;
+        }
+    }
+}

@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Attendance.Model;
+using Attendance.Repository;
+
+namespace Attendance.BusinessLogic
+{
+    public class ApplicationEntryBusinessLogic
+    {
+        public EmpData GetEmpData(string StaffId)
+        {
+            var repo = new ApplicationEntryRepository();
+            var data = repo.GetEmpData(StaffId);
+            return data;
+        }
+        //#############################
+        //DELETE CODING
+        // #############################
+
+        public string Delete(string id, string Type, string StaffId, string TotalDays,string cancelledBy)
+        {
+            var repo = new ApplicationEntryRepository();
+            var data1 = repo.Delete(id, Type, StaffId, TotalDays, cancelledBy);
+            return data1;
+        }
+
+
+
+        //#############################
+        //SEARCH CODING
+        // #############################
+
+        public List<ApplicationEntryList> Search(string StaffId)
+        {
+            var repo = new ApplicationEntryRepository();
+            var data1 = repo.Search(StaffId);
+            return data1;
+        }
+
+        public void SaveApplicationEntry(ApplicationEntryList _AE_, string UserFullName)
+        {
+            var repo = new ApplicationEntryRepository();
+            repo.SaveApplicationEntry(_AE_, UserFullName);
+        }
+
+
+        public List<ApplicationEntryList> GetApplicationEntry()
+        {
+            var repo = new ApplicationEntryRepository();
+            var lst = repo.GetApplicationEntry();
+            return lst;
+        }
+        public List<LeaveTypeList> GetAllLeaves()
+        {
+            var repo = new ApplicationEntryRepository();
+            var leaveList = repo.GetAllLeaves();
+            return leaveList;
+        }
+
+        public List<RHHolidayList> GetRHList(string StaffId)
+        {
+            var repo = new ApplicationEntryRepository();
+            var lst = repo.GetRHList(StaffId);
+            return lst;
+        }
+
+
+    }
+}

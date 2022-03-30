@@ -1,0 +1,122 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using Attendance.Model;
+using Attendance.Repository;
+
+namespace Attendance.BusinessLogic
+{
+    public class MastersBusinessLogic
+    {
+        public List<CompanyList> GetAllCompanies()
+        {
+            var repo = new MasterRepository();
+            var lst = repo.GetAllCompanies();
+            return lst;
+        }
+
+        public List<SelectListItem> LoadCompany()
+        {
+            var repo = new MasterRepository();
+            try
+            {
+                var lst = repo.GetAllCompaniesList();
+
+                var items = new List<SelectListItem>();
+
+                items = lst.Select(d => new SelectListItem()
+                {
+                    Text = d.Name,
+                    Value = d.Id.ToString(),
+                    Selected = false
+                }).ToList();
+
+                if (items == null)
+                {
+                    return new List<SelectListItem>();
+                }
+                else
+                {
+                    return items;
+                }
+            }
+            catch (Exception)
+            {
+                return new List<SelectListItem>();
+                throw;
+            }
+        }
+
+        public List<BranchList> GetAllBranches()
+        {
+            var repo = new MasterRepository();
+            var lst = repo.GetAllBranches();
+            return lst;
+        }
+
+        public List<DepartmentList> GetAllDepartments()
+        {
+            var repo = new MasterRepository();
+            var lst = repo.GetAllDepartments();
+            return lst;
+        }
+
+        public List<DivisionList> GetAllDivisions()
+        {
+            var repo = new MasterRepository();
+            var lst = repo.GetAllDivisions();
+            return lst;
+        }
+
+        public List<DesignationList> GetAllDesignations()
+        {
+            var repo = new MasterRepository();
+            var lst = repo.GetAllDesignations();
+            return lst;
+        }
+
+        public List<GradeList> GetAllGrades()
+        {
+            var repo = new MasterRepository();
+            var lst = repo.GetAllGrades();
+            return lst;
+        }
+
+        public List<CategoryList> GetAllCategories()
+        {
+            var repo = new MasterRepository();
+            var lst = repo.GetAllCategories();
+            return lst;
+        }
+
+        public List<CostCentreList> GetAllCostCentre()
+        {
+            var repo = new MasterRepository();
+            var lst = repo.GetAllCostCentre();
+            return lst;
+        }
+
+        public List<LocationList> GetAllLocation()
+        {
+            var repo = new MasterRepository();
+            var lst = repo.GetAllLocation();
+            return lst;
+        }
+
+        public string getmaxid(string tablename, string fieldname,string prefix, string suffix, int totalidlength, ref string lastid)
+        {
+            var repo = new MasterRepository();
+            var maxid = repo.getmaxid(tablename, fieldname, prefix, suffix, totalidlength, ref lastid);
+            return maxid;
+        }
+
+        public void AddOrUpdateInformation<T>(T newItem, string tableName, string operationMode, string CreatedBy) where T : class
+        {
+            var repo = new MasterRepository();
+            repo.AddOrUpdateInformation(newItem, tableName, operationMode, CreatedBy);
+        }
+    }
+}

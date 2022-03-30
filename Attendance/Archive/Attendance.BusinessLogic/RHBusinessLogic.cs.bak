@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Attendance.Repository;
+using Attendance.Model;
+
+namespace Attendance.BusinessLogic
+{
+    public class RHBusinessLogic
+    {
+        public void CancelRH(string ApplId)
+        {
+            var repo = new RHRepository();
+            repo.CancelRH(ApplId);
+        }
+
+        public void SaveRHApplication(RHApplication rha)
+        {
+            var repo = new RHRepository();
+            repo.SaveRHApplication(rha);
+        }
+
+        public List<RHHistory> GetRHApplicationHistory(string StaffId)
+        {
+            var repo = new RHRepository();
+            var lst = repo.GetRHApplicationHistory(StaffId);
+            return lst;
+        }
+
+        public List<RestrictedHolidayList> GetRestrictedHolidays(string CompanyId, string StaffId)
+        {
+            var repo = new RHRepository();
+            var lst = repo.GetRestrictedHolidays(CompanyId, StaffId);
+            return lst;
+        }
+
+        public string ValidateRHApplication(string StaffId)
+        {
+            var repo = new RHRepository();
+            var ret = repo.ValidateRHApplication(StaffId);
+            return ret;
+        }
+    }
+}

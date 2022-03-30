@@ -1,0 +1,671 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Attendance.Repository;
+using Attendance.Model;
+using System.Data.SqlClient;
+using System.Data.Entity.Migrations;
+using System.Data.Entity.Validation;
+using System.Data.Entity;
+
+namespace Attendance.Repository
+{
+    public class RALeaveApplicationRepository
+    {
+        AttendanceManagementContext context = null;
+        public RALeaveApplicationRepository()
+        {
+            context = new AttendanceManagementContext();
+        }
+        string Message = string.Empty;
+        StringBuilder builder = new StringBuilder();
+        public List<LeaveReasonList> GetLeaveCDReasonList(string user)
+        {
+            var qryStr = new StringBuilder();
+            qryStr.Clear();
+            qryStr.Append("select Id as ResonId,Name from LeaveCreditDebitReason where IsActive = 1");
+            try
+            {
+                var lst = context.Database.SqlQuery<LeaveReasonList>(qryStr.ToString()).Select(d => new LeaveReasonList()
+                {
+                    ResonId = d.ResonId,
+                    Name = d.Name
+                }).ToList();
+
+                if (lst == null)
+                {
+                    return new List<LeaveReasonList>();
+                }
+                else
+                {
+                    return lst;
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<LeaveReasonList>();
+            }
+        }
+        public List<RALeaveApplication> GetAppliedLeaves(string StaffId, string AppliedId, string userRole)
+        {
+            try
+            {
+                StringBuilder Str = new StringBuilder();
+
+                Str.Append(" select top 30 LeaveApplicationId as Id,StaffId,FirstName as StaffName, Remarks ,LeaveStartDate as StartDate ," +
+                    "LeaveEndDate as EndDate ,LeaveStartDurationName as FromDuration,LeaveEndDurationName as ToDuration ," +
+                    "Convert(Varchar(10),TotalDays) as TotalDays, LeaveTypeName as Type, Approval1StatusName as Status1," +
+                    "Approval2StatusName as Status2,IsCancelled FROM [View_LeaveApplicationHistory] where " +
+                    "staffid=@StaffId Order by CONVERT (DateTime, LeaveStartDate, 101) Desc ");
+
+                var Obj = context.Database.SqlQuery<RALeaveApplication>(Str.ToString(), new SqlParameter("@StaffId", StaffId)).ToList();
+                return Obj;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public List<RALeaveApplication> GetAppliedLeavesForMyTeam(string StaffId, string AppliedId, string userRole)
+        {
+            StringBuilder Str = new StringBuilder();
+            if (userRole == "3" || userRole == "5")
+            {
+                Str.Append(" select LeaveApplicationId as Id,StaffId,FirstName as StaffName, Remarks ," +
+                    "LeaveStartDate as StartDate ,LeaveEndDate as EndDate ,LeaveStartDurationName as FromDuration," +
+                    "LeaveEndDurationName as ToDuration ,Convert(Varchar(10),TotalDays) as TotalDays, " +
+                    "LeaveTypeName as Type, Approval1StatusName as Status1,Approval2StatusName as Status2,IsCancelled," +
+                    "Approval1Owner,Approval2Owner  FROM [vwLeaveApplicationApproval] where staffid= @StaffId");
+            }
+            else
+            {
+                Str.Append(" select LeaveApplicationId as Id,StaffId,FirstName as StaffName, Remarks ,LeaveStartDate as " +
+                    "StartDate ,LeaveEndDate as EndDate ,LeaveStartDurationName as FromDuration,LeaveEndDurationName as " +
+                    "ToDuration ,Convert(Varchar(10),TotalDays) as TotalDays, LeaveTypeName as Type, Approval1StatusName " +
+                    "as Status1,Approval2StatusName as Status2,IsCancelled,Approval1Owner,Approval2Owner  FROM " +
+                    "[vwLeaveApplicationApproval] where staffid=@StaffId and (AppliedBy=@AppliedId or " +
+                    "Approval1Owner=@AppliedId or Approval2Owner=@AppliedId)");
+            }
+            var Obj = context.Database.SqlQuery<RALeaveApplication>(Str.ToString(), new SqlParameter("@StaffId", StaffId),
+                new SqlParameter("@AppliedId", AppliedId)).ToList();
+            return Obj;
+        }
+
+        public List<RALeaveApplication> GetAllEmployeesLeaveList(string StaffId, string userRole, string AppliedId)
+        {
+            StringBuilder Str = new StringBuilder();
+            if (userRole == "3" || userRole == "5")
+            {
+                Str.Append("select top 30 LeaveApplicationId as Id,StaffId,FirstName as StaffName, Remarks ,LeaveStartDate as StartDate ," +
+                    "LeaveEndDate as EndDate ,LeaveStartDurationName as FromDuration,LeaveEndDurationName as ToDuration ," +
+                    "Convert(Varchar(10),TotalDays) as TotalDays, LeaveTypeName as Type, Approval1StatusName as Status1," +
+                    "Approval2StatusName as Status2,IsCancelled FROM [View_LeaveApplicationHistory] " +
+                    " where staffid=@StaffId Order by CONVERT (DateTime, LeaveStartDate, 101) Desc");
+            }
+            else
+            {
+                Str.Append(" select top 30 LeaveApplicationId as Id,StaffId,FirstName as StaffName, Remarks ,LeaveStartDate as StartDate ," +
+                    "LeaveEndDate as EndDate ,LeaveStartDurationName as FromDuration,LeaveEndDurationName as ToDuration ," +
+                    "Convert(Varchar(10),TotalDays) as TotalDays, LeaveTypeName as Type, Approval1StatusName as Status1," +
+                    "Approval2StatusName as Status2,IsCancelled FROM [View_LeaveApplicationHistory] where staffid=@StaffId and " +
+                    "(AppliedBy=@AppliedId or ApprovalOwner=@AppliedId or Approval2Owner=@AppliedId)" +
+                    " Order by CONVERT (DateTime, LeaveStartDate, 101) Desc");
+            }
+            var Obj = context.Database.SqlQuery<RALeaveApplication>(Str.ToString(), new SqlParameter("@StaffId", StaffId),
+                new SqlParameter("@AppliedId", AppliedId)).ToList();
+            return Obj;
+        }
+
+        public List<RALeaveApplication> GetApprovedLeavesForMyTeam(string StaffId)
+        {
+            StringBuilder Str = new StringBuilder();
+            Str.Append(" select LeaveApplicationId as Id,StaffId,FirstName as StaffName, Remarks ,LeaveStartDate as StartDate ," +
+                "LeaveEndDate as EndDate ,LeaveStartDurationName as FromDuration,LeaveEndDurationName as ToDuration ," +
+                "Convert(Varchar(10),TotalDays) as TotalDays, LeaveTypeName as Type, Approval1StatusName as Status1," +
+                "Approval2StatusName as Status2,IsCancelled,Approval1Owner,Approval2Owner FROM [vwLeaveApplicationApproval] where " +
+                "staffid=@StaffId ");
+            var Obj = context.Database.SqlQuery<RALeaveApplication>(Str.ToString(), new SqlParameter("@StaffId", StaffId)).ToList();
+            return Obj;
+        }
+
+        public List<LeaveReasonList> GetLeaveTypes(string user, string Gender)
+        {
+            var qryStr = new StringBuilder();
+            Gender = context.Staff.Where(condition => condition.Id == user).Select(select => select.Gender).FirstOrDefault();
+            qryStr.Append("Select '0' as Id , '-- Select LeaveType --' as Name Union All Select a.LeaveTypeId as Id,b.Name from LeaveGroupTxn as a join LeaveType as b on b.id = a.LeaveTypeId where a.LeaveGroupId = (select leavegroupid from StaffOfficial where StaffId = @user) and a.IsActive = 1 ");
+            if (Gender == "M")
+            {
+                qryStr.Append("and a.LeaveTypeId  not in('LV0005','LV0006')");
+            }
+            else
+            {
+                qryStr.Append("and a.LeaveTypeId  not in( 'LV0005','LV0039')");
+            }
+            try
+            {
+                var lst = context.Database.SqlQuery<LeaveReasonList>(qryStr.ToString(), new SqlParameter("@user", user)).Select(d => new LeaveReasonList()
+                {
+                    Id = d.Id,
+                    Name = d.Name
+                }).ToList();
+
+                if (lst == null)
+                {
+                    return new List<LeaveReasonList>();
+                }
+                else
+                {
+                    return lst;
+                }
+            }
+            catch (Exception)
+            {
+                return new List<LeaveReasonList>();
+            }
+        }
+
+        public List<LeaveReasonList> GetLeaveReasonList(string user)
+        {
+            var qryStr = new StringBuilder();
+            qryStr.Clear();
+            qryStr.Append("select a.LeaveTypeId as Id,b.Name from LeaveGroupTxn as a join LeaveType as b on b.id = a.LeaveTypeId where a.LeaveGroupId = (select leavegroupid from StaffOfficial where StaffId = @user) and a.IsActive = 1");
+            //qryStr.Append("SELECT CONVERT ( VARCHAR , Id ) AS Id , Name FROM LeaveType WHERE ISACTIVE = 1");
+
+            try
+            {
+                var lst = context.Database.SqlQuery<LeaveReasonList>(qryStr.ToString(),new SqlParameter("@user",user)).Select(d => new LeaveReasonList()
+                {
+                    Id = d.Id,
+                    Name = d.Name
+                }).ToList();
+
+                if (lst == null)
+                {
+                    return new List<LeaveReasonList>();
+                }
+                else
+                {
+                    return lst;
+                }
+            }
+            catch (Exception)
+            {
+                return new List<LeaveReasonList>();
+            }
+        }
+
+        public List<LeaveDuration> GetLeaveDurations()
+        {
+            var Obj = context.LeaveDuration.ToList();
+            return Obj;
+        }
+
+        public string GetTotalDaysLeave(string StaffId, string LeaveStartDurationId, string FromDate, string ToDate, string LeaveEndDurationId, string LeaveType)
+        {
+            var QryStr = new StringBuilder();
+            QryStr.Clear();
+            QryStr.Append("select dbo.fnGetTotalDaysLeave(@StaffId,@LeaveStartDurationId,@FromDate,@ToDate,@LeaveEndDurationId,@LeaveType)");
+
+            try
+            {
+                var data = context.Database.SqlQuery<string>(QryStr.ToString(), new SqlParameter("@StaffId", StaffId)
+                    , new SqlParameter("@LeaveStartDurationId", LeaveStartDurationId), new SqlParameter("@FromDate", FromDate)
+                    , new SqlParameter("@ToDate", ToDate), new SqlParameter("@LeaveEndDurationId", LeaveEndDurationId)
+                    , new SqlParameter("@LeaveType", LeaveType)).FirstOrDefault();
+
+                if (string.IsNullOrEmpty(data) == true)
+                {
+                    return "EMPTY";
+                }
+                else
+                {
+                    return data;
+                }
+            }
+            catch (Exception)
+            {
+                return "ERROR";
+            }
+        }
+
+        public string GetUniqueId()
+        {
+            return context.Database.SqlQuery<string>("select convert(varchar,getdate(),112) + replace(convert(varchar,getdate(),114),':','')").First();
+        }
+
+        public string RequestApplicationMustNotOverLapWithTheOther(string StaffId, string LeaveStartDurationId, string LeaveStartDate, string LeaveEndDate, string LeaveEndDurationId)
+        {
+            return context.Database.SqlQuery<string>("Exec DBO.[IsApplicationOverLapping] @StaffId,@LeaveStartDurationId," +
+                "@LeaveStartDate,@LeaveEndDate,@LeaveEndDurationId ",
+                new SqlParameter("@StaffId", StaffId),
+                new SqlParameter("@LeaveStartDurationId", LeaveStartDurationId),
+                new SqlParameter("@LeaveStartDate", LeaveStartDate),
+                new SqlParameter("@LeaveEndDate", LeaveEndDate),
+                new SqlParameter("@LeaveEndDurationId", LeaveEndDurationId)).First();
+        }
+
+        public void SaveRequestApplication(ClassesToSave DataToSave, bool isFinalLevelApproval)
+        {
+            DateTime fromDate = DateTime.Now;
+            DateTime toDate = DateTime.Now;
+            DateTime currentDate = DateTime.Now;
+            CommonRepository CR = new CommonRepository();
+
+            using (var Trans = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    // save to request application table.
+                    context.RequestApplication.Add(DataToSave.RA);
+                    // save to application approval table.
+                    context.ApplicationApproval.Add(DataToSave.AA);
+                    // save to email send log table.
+                    if (isFinalLevelApproval == true)
+                    {
+                        if (DataToSave.ELA != null)
+                        {
+                            SqlParameter[] sqlParameter = new SqlParameter[4];
+                            sqlParameter[0] = new SqlParameter("@StaffId", DataToSave.RA.StaffId);
+                            sqlParameter[1] = new SqlParameter("@RefId", DataToSave.ELA.RefId);
+                            sqlParameter[2] = new SqlParameter("@TransactionFlag", DataToSave.ELA.TransactionFlag);
+                            sqlParameter[3] = new SqlParameter("@LeaveCreditDebitReason", DataToSave.ELA.LeaveCreditDebitReasonId);
+                            context.Database.ExecuteSqlCommand("Delete from EmployeeLeaveAccount Where StaffId = @StaffId And" +
+                                " RefId = @RefId And TransactionFlag = @TransactionFlag and LeaveCreditDebitReasonId = @LeaveCreditDebitReason", sqlParameter);
+
+                            context.EmployeeLeaveAccount.Add(DataToSave.ELA);
+                        }
+                        if (DataToSave.RA.StartDate != null && DataToSave.RA.EndDate != null)
+                        {
+                            fromDate = Convert.ToDateTime(DataToSave.RA.StartDate);
+                            toDate = Convert.ToDateTime(DataToSave.RA.EndDate);
+                            if (fromDate.Date < currentDate.Date)
+                            {
+                                if (toDate.Date >= currentDate.Date)
+                                {
+                                    toDate = DateTime.Now.AddDays(-1);
+                                }
+                                CR.LogIntoIntoAttendanceControlTable(DataToSave.RA.StaffId, fromDate.Date, toDate.Date, DataToSave.RA.RequestApplicationType, DataToSave.AA.Id);
+                            }
+                        }
+                    }
+                    context.SaveChanges();
+                    Trans.Commit();
+
+                    if (DataToSave.ESL != null)
+                    {
+                        foreach (var l in DataToSave.ESL)
+                            if (l.To != "-" && l.To != "")
+                                CR.SendEmailMessageForApplication(l.From, l.To, l.CC, l.BCC, l.EmailSubject, l.EmailBody, l.CreatedBy);
+                    }
+                }
+                catch (DbEntityValidationException err)
+                {
+                    Trans.Rollback();
+                    throw err;
+                }
+            }
+        }
+
+        public void SaveDocumentInformation(DocumentUpload LawDocument)
+        {
+            context.DocumentUpload.Add(LawDocument);
+            context.SaveChanges();
+        }
+
+        public void RejectApplication(ClassesToSave CTS)
+        {
+            CommonRepository commonRepository = new CommonRepository();
+            using (var Trans = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    //Update the request application table.
+                    context.Entry(CTS.RA).Property("IsRejected").IsModified = true;
+                    //Update the application approval table.
+                    context.Entry(CTS.AA).Property("ApprovalStatusId").IsModified = true;
+                    context.Entry(CTS.AA).Property("ApprovedBy").IsModified = true;
+                    context.Entry(CTS.AA).Property("ApprovedOn").IsModified = true;
+                    context.Entry(CTS.AA).Property("Approval2statusId").IsModified = true;
+                    context.Entry(CTS.AA).Property("Approval2By").IsModified = true;
+                    context.Entry(CTS.AA).Property("Approval2On").IsModified = true;
+                    context.Entry(CTS.AA).Property("Comment").IsModified = true;
+                    context.SaveChanges();
+                    Trans.Commit();
+
+                    if (CTS.ESL != null)
+                    {
+                        foreach (var l in CTS.ESL)
+                            if (l.To != "-" && l.To != "")
+                                commonRepository.SendEmailMessageForApplication(l.From, l.To, l.CC, l.BCC, l.EmailSubject, l.EmailBody, l.CreatedBy);
+                    }
+                }
+                catch
+                {
+                    Trans.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        public void ApproveApplication(ClassesToSave CTS, bool IsFianlLevelApproval)
+        {
+            DateTime fromDate = DateTime.Now;
+            DateTime toDate = DateTime.Now;
+            DateTime currentDate = DateTime.Now;
+            CommonRepository commonRepository = new CommonRepository();
+            using (var Trans = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    //Update the request application table.
+                    context.Entry(CTS.RA).Property("IsApproved").IsModified = true;
+                    context.Entry(CTS.AA).Property("ApprovalStatusId").IsModified = true;
+                    context.Entry(CTS.AA).Property("ApprovedBy").IsModified = true;
+                    context.Entry(CTS.AA).Property("ApprovedOn").IsModified = true;
+                    context.Entry(CTS.AA).Property("Comment").IsModified = true;
+                    context.Entry(CTS.AA).Property("Approval2statusId").IsModified = true;
+                    context.Entry(CTS.AA).Property("Approval2By").IsModified = true;
+                    context.Entry(CTS.AA).Property("Approval2On").IsModified = true;
+                    if (IsFianlLevelApproval == true)
+                    {
+                        // Delete the duplicate debit entry if exist before insert
+                        if (CTS.ELA != null)
+                        {
+                            SqlParameter[] sqlParameter = new SqlParameter[4];
+                            sqlParameter[0] = new SqlParameter("@StaffId", CTS.RA.StaffId);
+                            sqlParameter[1] = new SqlParameter("@RefId", CTS.ELA.RefId);
+                            sqlParameter[2] = new SqlParameter("@TransactionFlag", CTS.ELA.TransactionFlag);
+                            sqlParameter[3] = new SqlParameter("@LeaveCreditDebitReason", CTS.ELA.LeaveCreditDebitReasonId);
+                            context.Database.ExecuteSqlCommand("Delete from EmployeeLeaveAccount Where StaffId = @StaffId And" +
+                                " RefId = @RefId And TransactionFlag = @TransactionFlag and " +
+                                "LeaveCreditDebitReasonId = @LeaveCreditDebitReason", sqlParameter);
+                            context.EmployeeLeaveAccount.Add(CTS.ELA);
+                        }
+                        if (CTS.RA.StartDate != null && CTS.RA.EndDate != null)
+                        {
+                            //Insert into attendance control table
+                            fromDate = Convert.ToDateTime(CTS.RA.StartDate);
+                            toDate = Convert.ToDateTime(CTS.RA.EndDate);
+                            if (fromDate.Date < currentDate.Date)
+                            {
+                                if (toDate.Date >= currentDate.Date)
+                                {
+                                    toDate = DateTime.Now.AddDays(-1);
+                                }
+                                commonRepository.LogIntoIntoAttendanceControlTable(CTS.RA.StaffId, fromDate.Date, toDate.Date, CTS.RA.RequestApplicationType, CTS.AA.Id);
+                            }
+                        }
+                    }
+                    context.SaveChanges();
+                    Trans.Commit();
+                    if (CTS.ESL != null)
+                    {
+                        foreach (var l in CTS.ESL)
+                            if (l.To != "-" && l.To != "")
+                                commonRepository.SendEmailMessageForApplication(l.From, l.To, l.CC, l.BCC, l.EmailSubject, l.EmailBody, l.CreatedBy);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Trans.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        public void CancelApplication(ClassesToSave CTS, string user)
+        {
+            var CR = new CommonRepository();
+            using (var Trans = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    context.Entry(CTS.RA).Property("IsCancelled").IsModified = true;
+                    context.Entry(CTS.RA).Property("CancelledDate").IsModified = true;
+                    context.Entry(CTS.RA).Property("CancelledBy").IsModified = true;
+                    if (CTS.ELA != null)
+                    {
+                        //set the Employee Leave Account class to add.
+                        SqlParameter[] sqlParameter = new SqlParameter[4];
+                        sqlParameter[0] = new SqlParameter("@StaffId", CTS.RA.StaffId);
+                        sqlParameter[1] = new SqlParameter("@RefId", CTS.ELA.RefId);
+                        sqlParameter[2] = new SqlParameter("@TransactionFlag", CTS.ELA.TransactionFlag);
+                        sqlParameter[3] = new SqlParameter("@LeaveCreditDebitReason", CTS.ELA.LeaveCreditDebitReasonId);
+                        context.Database.ExecuteSqlCommand("Delete from EmployeeLeaveAccount Where StaffId = @StaffId And" +
+                            " RefId = @RefId And TransactionFlag = @TransactionFlag and " +
+                            "LeaveCreditDebitReasonId = @LeaveCreditDebitReason", sqlParameter);
+                        context.EmployeeLeaveAccount.Add(CTS.ELA);
+                    }
+                    if (CTS.RA.IsApproved == true)
+                    {
+                        DateTime fromDate = DateTime.Now;
+                        DateTime toDate = DateTime.Now;
+                        DateTime currentDate = DateTime.Now;
+                        fromDate = Convert.ToDateTime(CTS.RA.StartDate);
+                        toDate = Convert.ToDateTime(CTS.RA.EndDate);
+                        if (fromDate.Date < currentDate.Date)
+                        {
+                            if (toDate.Date >= currentDate.Date)
+                            {
+                                toDate = DateTime.Now.AddDays(-1);
+                            }
+                            CR.LogIntoIntoAttendanceControlTable(CTS.RA.StaffId, fromDate.Date, toDate.Date, CTS.RA.RequestApplicationType, CTS.RA.Id);
+                        }
+                    }
+                    context.SaveChanges();
+                    Trans.Commit();
+                    if (CTS.ESL != null)
+                    {
+                        foreach (var l in CTS.ESL)
+                            if (l.To != "-" && l.To != "")
+                                CR.SendEmailMessageForApplication(l.From, l.To, l.CC, l.BCC, l.EmailSubject, l.EmailBody, l.CreatedBy);
+                    }
+                }
+                catch  (Exception err)
+                {
+                    Trans.Rollback();
+                    throw;
+                }
+            }
+        }
+
+ public void CancelApplication(ClassesToSave CTS)
+        {
+
+            DateTime fromDate = DateTime.Now;
+            DateTime toDate = DateTime.Now;
+            DateTime currentDate = DateTime.Now;
+
+                using (var Trans = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                    //context.RequestApplication.Attach(CTS.RA);
+                    //var entry = context.Entry(CTS.RA);
+                    //entry.Property(x => x.IsCancelled).IsModified = true;
+                    //CTS.RA.CancelledBy = CTS.RA.CancelledBy;
+
+                    //entry.Property(x => x.IsCancelled).IsModified = true;
+                    //entry.Property(x => x.CancelledDate).IsModified = true;
+                    //entry.Property(x => x.CancelledBy).IsModified = true;
+
+                    //entry.Property(x => x.IsReviewerCancelled).IsModified = true;
+                    //entry.Property(x => x.ReviewerCancelledDate).IsModified = true;
+                    //entry.Property(x => x.ReviewerCancelledBy).IsModified = true;
+
+                    //entry.Property(x => x.IsApproverCancelled).IsModified = true;
+                    //entry.Property(x => x.ApproverCancelledDate).IsModified = true;
+                    //entry.Property(x => x.ApproverCancelledBy).IsModified = true;
+
+
+                    //CTS.RA.CancelledBy = CTS.RA.CancelledBy;
+                    //context.Entry(CTS.RA).Property("IsCancelled").IsModified = true;
+                    //context.Entry(CTS.RA).Property("CancelledDate").IsModified = true;
+                    //context.Entry(CTS.RA).Property("CancelledBy").IsModified = true;
+
+                        //context.Entry(CTS.RA).Property("IsReviewerCancelled").IsModified = true;
+                        //context.Entry(CTS.RA).Property("ReviewerCancelledDate").IsModified = true;
+                        //context.Entry(CTS.RA).Property("ReviewerCancelledBy").IsModified = true;
+
+                        //context.Entry(CTS.RA).Property("IsApproverCancelled").IsModified = true;
+                        //context.Entry(CTS.RA).Property("ApproverCancelledDate").IsModified = true;
+                        //context.Entry(CTS.RA).Property("ApproverCancelledBy").IsModified = true;
+
+                    context.RequestApplication.AddOrUpdate(CTS.RA);
+
+                        //set the Employee Leave Account class to add.
+                    if (CTS.ELA != null)
+                    {
+                        CTS.ELA.TransactionDate = CTS.RA.ApplicationDate;
+                        CTS.ELA.Narration = "Approved the leave application.";
+                        context.EmployeeLeaveAccount.Add(CTS.ELA);
+                    }
+
+                    fromDate = Convert.ToDateTime(CTS.RA.StartDate);
+                    toDate = Convert.ToDateTime(CTS.RA.EndDate);
+                    if (fromDate < currentDate && CTS.RA.IsReviewed == true)
+                    {
+                        if (toDate >= currentDate)
+                        {
+                            toDate = DateTime.Now.AddDays(-1);
+                        }
+                        using (CommonRepository commonRepository = new CommonRepository())
+                        {
+                            commonRepository.LogIntoIntoAttendanceControlTable(CTS.RA.StaffId, fromDate, toDate, CTS.RA.RequestApplicationType, CTS.RA.Id);
+                        }
+                        }
+
+                        //save the changes.
+                        context.SaveChanges();
+                        Trans.Commit();
+                    if (CTS.ESL != null)
+                    {
+                        foreach (var l in CTS.ESL)
+                            if (l.To != "-")
+                                using (CommonRepository commonRepository = new CommonRepository())
+                                {
+                                    commonRepository.SendEmailMessageForApplication(l.From, l.To, l.CC, l.BCC, l.EmailSubject, l.EmailBody, l.CreatedBy);
+                    }
+                    }
+                }
+                catch (Exception e)
+                    {
+                        Trans.Rollback();
+                    throw e;
+                }
+            }
+        }
+
+
+
+        public ApplicationApproval GetApplicationApproval(string ParentId)
+        {
+            return context.ApplicationApproval.Where(d => d.ParentId.Equals(ParentId) && d.ParentType.Equals("LA")).FirstOrDefault();
+        }
+
+        public decimal GetLeaveBalance(string StaffId, string LeaveTypeId)
+        {
+            return context.Database.SqlQuery<decimal>("SELECT convert(decimal(5,2),availablebalance) as LeaveBalance FROM LeaveBalance where StaffId = @StaffId AND LeaveTypeId = @LeaveTypeId",
+                new SqlParameter("@StaffId", StaffId),
+                new SqlParameter("@LeaveTypeId", LeaveTypeId)).FirstOrDefault();
+        }
+        public decimal GetLeaveBalanceForApprovalStage(string StaffId, string LeaveTypeId)
+        {
+            return context.Database.SqlQuery<decimal>("SELECT convert(decimal(5,2),LEAVEBALANCE) as LeaveBalance FROM LeaveBalance where StaffId = @StaffId AND LeaveTypeId = @LeaveTypeId",
+                new SqlParameter("@StaffId", StaffId),
+                new SqlParameter("@LeaveTypeId", LeaveTypeId)).FirstOrDefault();
+        }
+
+        public RequestApplication GetRequestApplicationDetails(string Id)
+        {
+            return context.RequestApplication.Where(d => d.Id.Equals(Id)).FirstOrDefault();
+        }
+        public string SaveCompensatoryWorkingRepository(CompensatoryWorkingModel model)
+        {
+            using (DbContextTransaction trans = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    CompensatoryWorking tbl = new CompensatoryWorking();
+                    tbl.CompensatoryWorkingDate = model.CompensatoryWorkingDate;
+                    tbl.LeaveDate = model.LeaveDate;
+                    tbl.Reason = model.Reason;
+                    tbl.IsActive = true;
+                    tbl.CreatedOn = DateTime.Now;
+                    tbl.CreatedBy = model.CreatedBy;
+                    context.CompensatoryWorking.Add(tbl);
+                    context.SaveChanges();
+
+                    trans.Commit();
+                    Message = "success";
+                }
+                catch (Exception e)
+                {
+                    trans.Rollback();
+                    Message = e.Message;
+                }
+            }
+            return Message;
+        }
+        public string NewValidateLeavePrefixSuffix(string StaffId, DateTime LeaveStartDate, DateTime LeaveEndDate, string FromDuration, string ToDuration, string LeaveTypeId, decimal TotalDays)
+        {
+            string Message = string.Empty;
+            try
+            {
+                SqlParameter[] Param = new SqlParameter[7];
+                Param[0] = new SqlParameter("@StaffId", StaffId ?? "");
+                Param[1] = new SqlParameter("@LeaveStartDate", LeaveStartDate.Date);
+                Param[2] = new SqlParameter("@LeaveEndDate", LeaveEndDate.Date);
+                Param[3] = new SqlParameter("@FromDuration", Convert.ToInt32(FromDuration));
+                Param[4] = new SqlParameter("@ToDuration", Convert.ToInt32(ToDuration));
+                Param[5] = new SqlParameter("@LeaveTypeId", LeaveTypeId ?? "");
+                Param[6] = new SqlParameter("@TotalDays", TotalDays);
+
+                StringBuilder builder = new StringBuilder();
+                builder.Append("Select DBO.[ValidateLeavePrefixSuffix] (@StaffId,@LeaveStartDate,@LeaveEndDate,@FromDuration,@ToDuration,@LeaveTypeId,@TotalDays)");
+                Message = context.Database.SqlQuery<string>(builder.ToString(), Param).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                Message = e.GetBaseException().Message;
+            }
+            return Message;
+        }
+        public string GetStartduration(int LeaveStartDurationId)
+        {
+            var LeaveStartDuration = string.Empty;
+            var qryStr = new StringBuilder();
+            qryStr.Append("select [Name] from leaveduration where id = '" + LeaveStartDurationId + "'");
+
+            try
+            {
+                LeaveStartDuration = context.Database.SqlQuery<string>(qryStr.ToString()).FirstOrDefault();
+                return LeaveStartDuration;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public string GetEndduration(int LeaveEndDurationId)
+        {
+            var LeaveStartDuration = string.Empty;
+            var qryStr = new StringBuilder();
+            qryStr.Append("select [Name] from leaveduration where id = '" + LeaveEndDurationId + "'");
+
+            try
+            {
+                LeaveStartDuration = context.Database.SqlQuery<string>(qryStr.ToString()).FirstOrDefault();
+                return LeaveStartDuration;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
+}

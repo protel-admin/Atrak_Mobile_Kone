@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Attendance.Repository;
+using Attendance.Model;
+using Newtonsoft.Json;
+
+namespace Attendance.BusinessLogic
+{
+    public class EmployeeListBusinessLogic
+    {
+        public string LoadListOfEmployees()
+        {
+            var repo = new EmployeeListRepository();
+            var lst = repo.LoadListOfEmployees();
+            var str = ConvertEmployeeListToJSON(lst);
+            return str;
+        }
+
+        public string LoadAlphabetWiseListOfEmployees(char alphabet)
+        {
+            var repo = new EmployeeListRepository();
+            var lst = repo.LoadAlphabetWiseListOfEmployees(alphabet);
+            var str = ConvertEmployeeListToJSON(lst);
+            return str;
+        }
+
+        public string LoadCriteriaWiseListOfEmployees(string criteriastring)
+        {
+            var repo = new EmployeeListRepository();
+            var lst = repo.LoadCriteriaWiseListOfEmployees(criteriastring);
+            var str = ConvertEmployeeListToJSON(lst);
+            return str;
+        }
+
+        public string ConvertEmployeeListToJSON(List<EmployeeList> lst)
+        {
+            var jsontemp = new StringBuilder();
+            var jsonstring = string.Empty;
+
+            foreach (var d in lst)
+            {
+                jsontemp.Append(JsonConvert.SerializeObject(new EmployeeList()
+                {
+                    StaffId = d.StaffId,
+                    FirstName = d.FirstName,
+                    DeptName = d.DeptName,
+                    DesignationName = d.DesignationName,
+                    GradeName = d.GradeName,
+                    StatusName = d.StatusName,
+                    WorkingPattern = d.WorkingPattern
+                }));
+                jsontemp.Append(",");
+            }
+            jsonstring = jsontemp.ToString();
+
+            if(string.IsNullOrEmpty(jsonstring) == false)
+            {
+                if (jsonstring.EndsWith(",") == true)
+                {
+                    jsonstring = jsonstring.Substring(0, jsonstring.Length - 1);
+                }
+            }
+
+            return "[" + jsonstring + "]";
+        }
+    }
+}

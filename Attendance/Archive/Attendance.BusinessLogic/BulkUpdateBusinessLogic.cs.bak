@@ -1,0 +1,60 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using Attendance.Repository;
+
+namespace Attendance.BusinessLogic
+{
+    public class BulkUpdateBusinessLogic
+    {
+        public List<SelectListItem> GetMasterList(string TableName)
+        {
+            var Repo = new BulkUpdateRepository();
+            var lst = Repo.GetMasterList(TableName);
+
+            var items = new List<SelectListItem>();
+
+            foreach ( var l in lst)
+                items.Add(new SelectListItem { Value = l.Id.ToString(), 
+                    Text = l.Name.ToString().ToUpper(), Selected = false });
+
+            return items;
+
+        }
+
+
+        public List<SelectListItem> GetWorkingPatternList()
+        {
+            var Repo = new BulkUpdateRepository();
+            var lst = Repo.GetWorkingPatternList();
+
+            var items = new List<SelectListItem>();
+
+            foreach (var l in lst)
+                items.Add(new SelectListItem
+                {
+                    Value = l.Id.ToString(),
+                    Text = l.Name.ToString().ToUpper(),
+                    Selected = false
+                });
+
+            return items;
+
+        }
+
+        public void UpdateEmployees(string EmpList, string Criteria)
+        {
+            var repo = new BulkUpdateRepository();
+
+            if(Criteria.Trim().EndsWith(",")){
+                Criteria = Criteria.Substring(0, Criteria.Length - 1);}
+
+            EmpList = "'" + EmpList.Replace(",", "','") + "'";
+
+            repo.UpdateEmployees(EmpList, Criteria);
+        }
+    }
+}

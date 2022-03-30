@@ -1,0 +1,424 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Attendance.Model;
+using Attendance.Repository;
+using Newtonsoft.Json;
+
+namespace Attendance.BusinessLogic
+{
+    public class OTApplicationBusinessLogic
+    {
+        //
+        public string LoadOTApplications()
+        {
+            var repo = new OTApplicationRepository();
+            var lst = repo.LoadOTApplications();
+            var str = ConvertOTApplicationListToJSon(lst);
+            return str;
+        }
+
+        public string SaveInformation(List<OTBulkUpload> OTP,string LogedInUser)
+        {
+            var repo = new OTApplicationRepository();
+            return repo.SaveInformation(OTP, LogedInUser);
+        }
+
+        public void SaveInformation(ClassesToSaveforOT ota, string SolidLine)
+        {
+            var repo = new OTApplicationRepository();
+            repo.SaveInformation(ota, SolidLine);
+        }
+
+        //public string GetReviewer()
+        //{
+        //    var repo = new RAOnDutyApplicationRepository();
+        //    return repo.GetUniqueId();
+        //}
+
+        public string ConvertOTApplicationListToJSon(List<OTApplicationList> lst)
+        {
+            var jsontemp = new StringBuilder();
+            var jsonstring = string.Empty;
+
+            foreach (var d in lst)
+            {
+                jsontemp.Append(JsonConvert.SerializeObject(new OTApplicationList()
+                {
+                    Id = d.Id,
+                    StaffId = d.StaffId,
+                    FirstName = d.FirstName,
+                    OTDate = d.OTDate,
+                    OTTime = d.OTTime,
+                    OTDuration = d.OTDuration,
+                    OTReason = d.OTReason,
+                    StatusId = d.StatusId,
+                    Status = d.Status,
+                    CreatedOn = d.CreatedOn,
+                    CreatedBy = d.CreatedBy
+                }));
+                jsontemp.Append(",");
+            }
+            jsonstring = jsontemp.ToString();
+
+            if (string.IsNullOrEmpty(jsonstring) == false)
+            {
+                if (jsonstring.EndsWith(",") == true)
+                {
+                    jsonstring = jsonstring.Substring(0, jsonstring.Length - 1);
+                }
+            }
+            return "[" + jsonstring + "]";
+
+        }
+
+        public void ApproveApplication(string Id, string ReportingManagerId)
+        {
+            //Get the leave application details based on the Id passed to this function as a parameter.
+            OTApplicationRepository repo = new OTApplicationRepository();
+            var Obj = repo.GetOTApplicationDetails(Id);
+            var AA = repo.GetApplicationApproval(Id);
+            var cm = new CommonRepository();
+            EmployeeLeaveAccount ELA = new EmployeeLeaveAccount();
+            List<EmailSendLog> ESL = new List<EmailSendLog>();
+            //first send acknowledgement email to the user.
+            string ReportingManagerName = string.Empty;
+            string ReviewerName = string.Empty;
+            string StaffName = string.Empty;
+            string LocationId = string.Empty;
+            string ApproverOwner = string.Empty;
+            string ReviewerOwner = string.Empty;
+            LocationId = cm.GetLocationId(Obj.StaffId);
+            ApproverOwner = cm.GetApproverOwner(Id);
+            ReviewerOwner = cm.GetReviewerOwner(Id);
+            ReportingManagerName = cm.GetStaffName(ApproverOwner);
+            ReviewerName = cm.GetStaffName(ReviewerOwner);
+            StaffName = cm.GetStaffName(Obj.StaffId);
+             ClassesToSaveforOT CTS = new ClassesToSaveforOT();
+
+
+             if (ApproverOwner == ReportingManagerId && ReviewerOwner == ReportingManagerId)
+             {
+
+                 AA.ApprovalStatusId = 2;
+                 AA.ApprovedBy = ReportingManagerId;
+                 AA.ApprovedOn = DateTime.Now;
+                 AA.ReviewerstatusId = 2;
+                 AA.ReviewedBy = ReportingManagerId;
+                 AA.ReviewedOn = DateTime.Now;
+                 AA.Comment = "APPROVED THE OT REQUEST.";
+
+                 var mailbody = string.Empty;
+                 {
+                     mailbody = "<html><head><title></title></head><body><p style=\"font-family:tahoma; font-size:9pt;\">Dear " + StaffName + ",<br/><br>Greetings<br/></p><p style=\"font-family:tahoma; font-size:9pt;\">Your OverTime application on " + Convert.ToDateTime(Obj.OTDate).ToString("dd-MMM-yyyy") + "  for " + Obj.OTTime + "  has been approved.</p><p style=\"font-family:tahoma; font-size:9pt;\">Best Regards</p><p style=\"font-family:tahoma; font-size:9pt;\">" + ReportingManagerName + " &nbsp;(" + ReportingManagerId + ")</p></body></html>";
+                 }
+
+                 ESL.Add(new EmailSendLog
+                 {
+                     //From = cm.GetEmailIdOfEmployee(ReportingManagerId) ?? string.Empty,
+                     From = cm.GetEmailFromAdd(),
+                     To = cm.GetEmailIdOfEmployee(Obj.StaffId) ?? "-",
+                     CC = cm.GetCCAddress("OVERTIME", LocationId),
+                     BCC = string.Empty,
+                     EmailSubject = "Requested OverTime application status",
+                     EmailBody = mailbody,
+                     CreatedOn = DateTime.Now,
+                     CreatedBy = ReportingManagerId,
+                     IsSent = false,
+                     SentOn = Convert.ToDateTime("1900-01-01 00:00:00.000"),
+                     IsError = false,
+                     ErrorDescription = "-",
+                     SentCounter = 0
+                 });
+
+                 //if (LocationId == "LO0005")
+                 //{
+                 //    int OTDuration = int.Parse(Obj.OTTime);
+
+                 //    ELA.StaffId = Obj.StaffId;
+                 //    ELA.LeaveTypeId = "LV0005";
+                 //    ELA.TransactionFlag = 1;
+                 //    ELA.TransactionDate = DateTime.Now;
+                 //    if (OTDuration >= 4 && OTDuration <= 7)
+                 //    {
+                 //        ELA.LeaveCount = Convert.ToDecimal(0.50);
+                 //    }
+                 //    else if (OTDuration > 7)
+                 //    {
+                 //        ELA.LeaveCount = Convert.ToDecimal(1);
+                 //    }
+                 //    ELA.Narration = "OVERTIME - APPLICATION CREDIT BY ";
+                 //    ELA.LeaveCreditDebitReasonId = 28;
+                 //}
+
+
+                 CTS.AA = AA;
+                 CTS.ESL = ESL;
+                 CTS.ELA = ELA;
+                 CTS.OTP = Obj;
+                 repo.ApproveApplication(CTS, ReportingManagerId, Obj.StaffId);
+
+
+
+             }
+
+            if (ApproverOwner == ReportingManagerId && ReviewerOwner != ReportingManagerId)
+            {
+
+                AA.ApprovalStatusId = 2;
+                AA.ApprovedBy = ReportingManagerId;
+                AA.ApprovedOn = DateTime.Now;
+                AA.Comment = "APPROVED THE OT REQUEST.";
+
+                var mailbody = string.Empty;
+                {
+                    mailbody = "<html><head><title></title></head><body><p style=\"font-family:tahoma; font-size:9pt;\">Dear " + StaffName + ",<br/><br>Greetings<br/></p><p style=\"font-family:tahoma; font-size:9pt;\">Your OverTime application on " + Convert.ToDateTime(Obj.OTDate).ToString("dd-MMM-yyyy") + "  for " + Obj.OTTime + "  has been approved.</p><p style=\"font-family:tahoma; font-size:9pt;\">Best Regards</p><p style=\"font-family:tahoma; font-size:9pt;\">" + ReportingManagerName + " &nbsp;(" + ReportingManagerId + ")</p></body></html>";
+                }
+
+                ESL.Add(new EmailSendLog
+                {
+                    //From = cm.GetEmailIdOfEmployee(ReportingManagerId) ?? string.Empty,
+                    From = cm.GetEmailFromAdd(),
+                    To = cm.GetEmailIdOfEmployee(Obj.StaffId) ?? "-",
+                    CC = cm.GetCCAddress("OVERTIME", LocationId),
+                    BCC = string.Empty,
+                    EmailSubject = "Requested OverTime application status",
+                    EmailBody = mailbody,
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = ReportingManagerId,
+                    IsSent = false,
+                    SentOn = Convert.ToDateTime("1900-01-01 00:00:00.000"),
+                    IsError = false,
+                    ErrorDescription = "-",
+                    SentCounter = 0
+                });
+
+               // if(LocationId == "LO0005")
+               // {
+               //         int OTDuration = int.Parse(Obj.OTTime);
+
+               //         ELA.StaffId = Obj.StaffId;
+               //         ELA.LeaveTypeId = "LV0005";
+               //         ELA.TransactionFlag = 1;
+               //         ELA.TransactionDate = DateTime.Now;
+               //         if (OTDuration >= 4 && OTDuration <= 7)
+               //         {
+               //             ELA.LeaveCount = Convert.ToDecimal(0.50);
+               //         }
+               //         else if(OTDuration > 7)
+               //         {
+               //             ELA.LeaveCount = Convert.ToDecimal(1);
+               //         }
+               //         ELA.Narration = "OVERTIME - APPLICATION CREDIT BY ";
+               //         ELA.LeaveCreditDebitReasonId = 28;
+               //}
+
+               
+                CTS.AA = AA;
+                CTS.ESL = ESL;
+                CTS.ELA = ELA;
+                CTS.OTP = Obj;
+                repo.ApproveApplication(CTS, ReportingManagerId,Obj.StaffId);
+
+                
+
+            }
+
+            if (ReviewerOwner == ReportingManagerId && ApproverOwner != ReportingManagerId)
+            {
+
+
+                AA.ReviewerstatusId = 2;
+                AA.ReviewedBy = ReportingManagerId;
+                AA.ReviewedOn = DateTime.Now;
+                AA.Comment = "REVIEWED THE OT DUTY REQUEST.";
+
+                var mailbody = string.Empty;
+                {
+                    mailbody = "<html><head><title></title></head><body><p style=\"font-family:tahoma; font-size:9pt;\">Dear " + StaffName + ",<br/><br>Greetings<br/></p><p style=\"font-family:tahoma; font-size:9pt;\">Your OverTime application on " + Convert.ToDateTime(Obj.OTDate).ToString("dd-MMM-yyyy") + "  for " + Obj.OTTime + "  has been Reviewed and sent for an Approval.</p><p style=\"font-family:tahoma; font-size:9pt;\">Best Regards</p><p style=\"font-family:tahoma; font-size:9pt;\">" + ReviewerName + " &nbsp;(" + ReviewerOwner + ")</p></body></html>";
+                }
+
+                ESL.Add(new EmailSendLog
+                {
+                    From = cm.GetEmailIdOfEmployee(ReviewerOwner) ?? string.Empty,
+                    To = cm.GetEmailIdOfEmployee(Obj.StaffId) ?? "-",
+                    CC = string.Empty,
+                    BCC = string.Empty,
+                    EmailSubject = "Requested OverTime application status",
+                    EmailBody = mailbody,
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = ReportingManagerId,
+                    IsSent = false,
+                    SentOn = Convert.ToDateTime("1900-01-01 00:00:00.000"),
+                    IsError = false,
+                    ErrorDescription = "-",
+                    SentCounter = 0
+                });
+
+                var mailbodyA = string.Empty;
+                {
+                    mailbodyA = "<html><head><title></title></head><body><p style=\"font-family:tahoma; font-size:9pt;\">Dear " + ApproverOwner + ",<br/><br>Greetings<br/></p><p style=\"font-family:tahoma; font-size:9pt;\">" + StaffName + "  has applied for an OverTime application on " + Convert.ToDateTime(Obj.OTDate).ToString("dd-MMM-yyyy") + " for " + Obj.OTTime + "  has been Reviewed, Need your Intervention for approval.</p><p style=\"font-family:tahoma; font-size:9pt;\">Best Regards</p><p style=\"font-family:tahoma; font-size:9pt;\">" + ReviewerName + " &nbsp;(" + ReviewerOwner + ")</p></body></html>";
+                }
+
+
+                ESL.Add(new EmailSendLog
+                {
+                    From = cm.GetEmailIdOfEmployee(ReviewerOwner) ?? string.Empty,
+                    To = cm.GetEmailIdOfEmployee(ApproverOwner) ?? "-",
+                    CC = string.Empty,
+                    BCC = string.Empty,
+                    EmailSubject = "Requested leave application status",
+                    EmailBody = mailbodyA,
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = ReportingManagerId,
+                    IsSent = false,
+                    SentOn = Convert.ToDateTime("1900-01-01 00:00:00.000"),
+                    IsError = false,
+                    ErrorDescription = "-",
+                    SentCounter = 0
+                });
+
+                //ClassesToSaveforOT CTS = new ClassesToSaveforOT();
+                CTS.AA = AA;
+                CTS.ESL = ESL;
+                CTS.ELA = ELA;
+                CTS.OTP = Obj;
+                repo.ApproveApplication(CTS, ReportingManagerId, Obj.StaffId);
+
+            }
+
+        }
+
+
+        public void RejectApplication(string Id, string ReportingManagerId)
+        {
+            //Get the leave application details based on the id passed to this function as a parameter.
+            OTApplicationRepository repo = new OTApplicationRepository();
+            var Obj = repo.GetOTApplicationDetails(Id);
+            var AA = repo.GetApplicationApproval(Id);
+            var cm = new CommonRepository();
+            List<EmailSendLog> ESL = new List<EmailSendLog>();
+            //first send acknowledgement email to the user.
+            string ReportingManagerName = string.Empty;
+            string StaffName = string.Empty;
+            string LocationId = string.Empty;
+            string ReviewerName = string.Empty;
+            string ApproverOwner = string.Empty;
+            string ReviewerOwner = string.Empty;
+            LocationId = cm.GetLocationId(Obj.StaffId);
+            ApproverOwner = cm.GetApproverOwner(Id);
+            ReviewerOwner = cm.GetReviewerOwner(Id);
+            ReportingManagerName = cm.GetStaffName(ApproverOwner);
+            ReviewerName = cm.GetStaffName(ReviewerOwner);
+            StaffName = cm.GetStaffName(Obj.StaffId);
+            ClassesToSave CTS = new ClassesToSave();
+
+            if (ApproverOwner == ReportingManagerId && ReviewerOwner == ReportingManagerId)
+            {
+                AA.ApprovalStatusId = 3;
+                AA.ApprovedBy = ReportingManagerId;
+                AA.ApprovedOn = DateTime.Now;
+                AA.Comment = "OVER TIME REQUEST HAS BEEN REJECTED BY THE REPORTING MANAGER.";
+
+                var mailbody = string.Empty;
+                mailbody = "<html><head><title></title></head><body><p style=\"font-family:tahoma; font-size:9pt;\">Dear " + StaffName + ",<br/><br>Greetings<br/></p><p style=\"font-family:tahoma; font-size:9pt;\">Your OverTime application on " + Convert.ToDateTime(Obj.OTDate).ToString("dd-MMM-yyyy") + " for the duration of " + Obj.OTTime + "  has been rejected by the Approver.</p><p style=\"font-family:tahoma; font-size:9pt;\">Best Regards</p><p style=\"font-family:tahoma; font-size:9pt;\">" + ReportingManagerName + " &nbsp;(" + ReportingManagerId + ")</p></body></html>";
+                //email from user
+                ESL.Add(new EmailSendLog
+                {
+                    //From = cm.GetEmailIdOfEmployee(ReportingManagerId) ?? string.Empty,
+                    From = cm.GetEmailFromAdd(),
+                    To = cm.GetEmailIdOfEmployee(Obj.StaffId) ?? "-",
+                    CC = cm.GetCCAddress("OVERTIME", LocationId),
+                    BCC = string.Empty,
+                    EmailSubject = "Requested leave application status",
+                    EmailBody = mailbody,
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = ReportingManagerId,
+                    IsSent = false,
+                    SentOn = Convert.ToDateTime("1900-01-01 00:00:00.000"),
+                    IsError = false,
+                    ErrorDescription = "-",
+                    SentCounter = 0
+                });
+
+
+                CTS.AA = AA;
+                CTS.ESL = ESL;
+                repo.RejectApplication(CTS, Obj.StaffId);
+            }
+
+           else if(ApproverOwner ==ReportingManagerId && ReviewerOwner!=ReportingManagerId) 
+           {
+                AA.ApprovalStatusId = 3;
+                AA.ApprovedBy = ReportingManagerId;
+                AA.ApprovedOn = DateTime.Now;
+                AA.Comment = "OVER TIME REQUEST HAS BEEN REJECTED BY THE REPORTING MANAGER.";
+
+                var mailbody = string.Empty;                
+                 mailbody = "<html><head><title></title></head><body><p style=\"font-family:tahoma; font-size:9pt;\">Dear " + StaffName + ",<br/><br>Greetings<br/></p><p style=\"font-family:tahoma; font-size:9pt;\">Your OverTime application on " + Convert.ToDateTime(Obj.OTDate).ToString("dd-MMM-yyyy") + " for the duration of " + Obj.OTTime + "  has been rejected by the Approver.</p><p style=\"font-family:tahoma; font-size:9pt;\">Best Regards</p><p style=\"font-family:tahoma; font-size:9pt;\">" + ReportingManagerName + " &nbsp;(" + ReportingManagerId + ")</p></body></html>";
+                //email from user
+                ESL.Add(new EmailSendLog
+                {
+                    //From = cm.GetEmailIdOfEmployee(ReportingManagerId) ?? string.Empty,
+                    From =cm.GetEmailFromAdd(),
+                    To = cm.GetEmailIdOfEmployee(Obj.StaffId) ?? "-",
+                    CC = cm.GetCCAddress("OVERTIME", LocationId),
+                    BCC = string.Empty,
+                    EmailSubject = "Requested leave application status",
+                    EmailBody = mailbody,
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = ReportingManagerId,
+                    IsSent = false,
+                    SentOn = Convert.ToDateTime("1900-01-01 00:00:00.000"),
+                    IsError = false,
+                    ErrorDescription = "-",
+                    SentCounter = 0
+                });
+
+                
+                CTS.AA = AA;
+                CTS.ESL = ESL;
+                repo.RejectApplication(CTS,Obj.StaffId);
+           }
+
+            else if(ReviewerOwner ==ReportingManagerId && ApproverOwner!=ReportingManagerId) 
+           {
+                AA.ReviewerstatusId = 3;
+                AA.ReviewedBy = ReportingManagerId;
+                AA.ReviewedOn = DateTime.Now;
+                AA.Comment = "ON DUTY REQUEST HAS BEEN REJECTED BY THE REVIEWER.";
+
+                var mailbody = string.Empty;
+                
+                    mailbody = "<html><head><title></title></head><body><p style=\"font-family:tahoma; font-size:9pt;\">Dear " + StaffName + ",<br/><br>Greetings<br/></p><p style=\"font-family:tahoma; font-size:9pt;\">Your On Duty application on " + Convert.ToDateTime(Obj.OTDate).ToString("dd-MMM-yyyy") + " for the duration of" + Obj.OTTime + "  has been rejected by the Reviewer.</p><p style=\"font-family:tahoma; font-size:9pt;\">Best Regards</p><p style=\"font-family:tahoma; font-size:9pt;\">" + ReportingManagerName + " &nbsp;(" + ReportingManagerId + ")</p></body></html>";
+
+                //email to user
+                ESL.Add(new EmailSendLog
+                {
+                    //From = cm.GetEmailIdOfEmployee(ReportingManagerId) ?? string.Empty,
+                    From = cm.GetEmailFromAdd(),
+                    To = cm.GetEmailIdOfEmployee(Obj.StaffId) ?? "-",
+                    CC = string.Empty,
+                    BCC = string.Empty,
+                    EmailSubject = "Requested leave application status",
+                    EmailBody = mailbody,
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = ReportingManagerId,
+                    IsSent = false,
+                    SentOn = Convert.ToDateTime("1900-01-01 00:00:00.000"),
+                    IsError = false,
+                    ErrorDescription = "-",
+                    SentCounter = 0
+                });
+            }
+                //ClassesToSave CTS = new ClassesToSave();
+                CTS.AA = AA;
+                CTS.ESL = ESL;
+                repo.RejectApplication(CTS, Obj.StaffId);
+           }
+                
+            }
+        }
+        

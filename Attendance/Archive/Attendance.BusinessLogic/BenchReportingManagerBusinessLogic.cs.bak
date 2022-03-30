@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Attendance.Model;
+using Attendance.Repository;
+
+namespace Attendance.BusinessLogic
+{
+    public class BenchReportingManagerBusinessLogic
+    {
+        public BenchReportingManagerModel GetBenchReportingManager(int Id)
+        {
+            BenchReportingManagerRepository repo = new BenchReportingManagerRepository();
+            return repo.GetBenchReportingManager(Id);
+        }
+
+        public List<BenchReportingManagerDataTableModel> LoadDataTable()
+        {
+            BenchReportingManagerRepository repo = new BenchReportingManagerRepository();
+            return repo.LoadDataTable();
+        }
+
+        public void SaveChanges(BenchReportingManagerModel model)
+        {
+            BenchReportingManager _BRM_ = new BenchReportingManager();
+            _BRM_.Id = model.Id;
+            _BRM_.StaffId = model.StaffId;
+            _BRM_.IsActive = model.IsActive;
+            _BRM_.CreatedOn = Convert.ToDateTime(model.CreatedOn);
+            _BRM_.CreatedBy = model.CreatedBy;
+            BenchReportingManagerRepository repo = new BenchReportingManagerRepository();
+            repo.SaveChanges(_BRM_);
+        }
+
+        //public List<AttachDetachStaffList> GetStaffListToDetach(string ReportingManager)
+        //{
+        //    var repo = new BenchReportingManagerRepository();
+        //    return repo.GetStaffListToDetach(ReportingManager);
+        //}
+
+
+        public List<AttachDetachList> GetStaffListToDetach(string ReportingManager)
+        {
+            var repo = new BenchReportingManagerRepository();
+            return repo.GetStaffListToDetach(ReportingManager);
+        }
+
+        public void DetachEmployees(AttachDetach model)
+        {
+            var repo = new BenchReportingManagerRepository();
+            repo.DetachEmployees(model);
+        }
+
+        public List<AttachDetachList> GetStaffListFromCommonPool(string ReportingManager)
+        {
+            var repo = new BenchReportingManagerRepository();
+            return repo.GetStaffListFromCommonPool(ReportingManager);
+        }
+
+        public void AttachEmployees(AttachDetach model)
+        {
+            var repo = new BenchReportingManagerRepository();
+            repo.AttachEmployees(model);
+        }
+
+    }
+}

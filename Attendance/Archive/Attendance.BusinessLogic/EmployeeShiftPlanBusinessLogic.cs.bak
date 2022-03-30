@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Attendance.Model;
+using Attendance.Repository;
+
+namespace Attendance.BusinessLogic
+{
+    public class EmployeeShiftPlanBusinessLogic
+    {
+        public StaffView GetStaffInformation(string StaffId)
+        {
+            var repo = new EmployeeShiftPlanRepository();
+            var data = repo.GetStaffInformation(StaffId);
+            return data;
+        }
+
+        public List<ShiftView> GetShifts()
+        {
+            var repo = new EmployeeShiftPlanRepository();
+            var lst = repo.GetShifts();
+            return lst;
+        }
+
+        public List<ShiftPatternList> GetShiftPattern()
+        {
+            var repo = new EmployeeShiftPlanRepository();
+            var lst = repo.GetShiftPattern();
+            return lst;
+        }
+
+        public List<ShiftPatternList> GetShiftPatternForWeeklyPosting()
+        {
+            var repo = new EmployeeShiftPlanRepository();
+            var lst = repo.GetShiftPatternForWeeklyPosting();
+            return lst;
+        }
+        public List<WorkingDayPatternList> GetWorkingDayPattern()
+        {
+            var repo = new EmployeeShiftPlanRepository();
+            var lst = repo.GetWorkingDayPattern();
+            return lst;
+        }
+
+        public List<WeeklyOffList> GetWeeklyOffs()
+        {
+            var repo = new EmployeeShiftPlanRepository();
+            var lst = repo.GetWeeklyOffs();
+            return lst;
+        }
+
+        public List<PermanantShiftChangeList> GetShiftChangeList()
+        {
+            var repo = new EmployeeShiftPlanRepository();
+            var lst = repo.GetShiftChangeList();
+            return lst;
+        }
+
+        public void SaveInformation(EmployeeShiftPlan data ,AttendanceControlTable act)
+        {
+            var repo = new EmployeeShiftPlanRepository();
+            repo.SaveInformation(data , act);
+        }
+    }
+}

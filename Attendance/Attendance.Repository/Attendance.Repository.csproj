@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A37D816C-5B46-4583-B9D3-5BA37464F454}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Attendance.Repository</RootNamespace>
+    <AssemblyName>Attendance.Repository</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationEntryRepository.cs" />
+    <Compile Include="CoffCreditRepository.cs" />
+    <Compile Include="ComPoOffRepository.cs" />
+    <Compile Include="CommonRepository.cs" />
+    <Compile Include="AttendanceManagementContext.cs" />
+    <Compile Include="AttendanceManagementInitializer.cs" />
+    <Compile Include="CalendarRepository.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="CostCentreRepository.cs" />
+    <Compile Include="DeleteEmployeeShiftPlanRepository.cs" />
+    <Compile Include="DepartmentRepository.cs" />
+    <Compile Include="DesignationRepository.cs" />
+    <Compile Include="DivisionRepository.cs" />
+    <Compile Include="DutyRoosterRepository.cs" />
+    <Compile Include="EmployeeListRepository.cs" />
+    <Compile Include="EmployeeShiftPlanRepository.cs" />
+    <Compile Include="HierarchyRepository.cs" />
+    <Compile Include="HolidayRepository.cs" />
+    <Compile Include="HolidayZoneRepository.cs" />
+    <Compile Include="LandingPageRepository.cs" />
+    <Compile Include="LaterOffDateRepository.cs" />
+    <Compile Include="LaterOffRepository.cs" />
+    <Compile Include="IndividualLeaveCreditDebitRepository.cs" />
+    <Compile Include="LeaveGroupRepository.cs" />
+    <Compile Include="LeaveTypeRepository.cs" />
+    <Compile Include="LogRepository.cs" />
+    <Compile Include="MasterRepository.cs" />
+    <Compile Include="OTApplicationRepository.cs" />
+    <Compile Include="OTRepository.cs" />
+    <Compile Include="OverTimeRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RACoffAvailingApplicationRepository.cs" />
+    <Compile Include="RACoffCreditApplicationRepository.cs" />
+    <Compile Include="RACoffRequestApplicationRepository.cs" />
+    <Compile Include="RALeaveApplicationRepository.cs" />
+    <Compile Include="RALeaveDonationRepository.cs" />
+    <Compile Include="RAManualPunchApplicationRepository.cs" />
+    <Compile Include="RAOnDutyApplicationRepository.cs" />
+    <Compile Include="RAOTApplicationRepository.cs" />
+    <Compile Include="RAPermissionApplicationRepository.cs" />
+    <Compile Include="ReportRepository.cs" />
+    <Compile Include="RequestApplicationRepository.cs" />
+    <Compile Include="SecurityGroupRepository.cs" />
+    <Compile Include="ShiftChangeRepository.cs" />
+    <Compile Include="ShiftChangeViewRepository.cs" />
+    <Compile Include="ShiftPatternNewRepository.cs" />
+    <Compile Include="ShiftPatternRepository.cs" />
+    <Compile Include="ShiftsRepository.cs" />
+    <Compile Include="ShiftWeeklyPostingRepository.cs" />
+    <Compile Include="StaffDrillDownRepository.cs" />
+    <Compile Include="StaffListRepository.cs" />
+    <Compile Include="StaffRepository.cs" />
+    <Compile Include="TrackChangeRepository.cs" />
+    <Compile Include="UserLandingPageRepository.cs" />
+    <Compile Include="WeeklyOffRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Attendance.Model\Attendance.Model.csproj">
+      <Project>{5fbd5092-4f5a-40f3-9e4c-a491fb044b18}</Project>
+      <Name>Attendance.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

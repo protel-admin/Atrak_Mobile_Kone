@@ -1,0 +1,80 @@
+﻿using Attendance.Model;
+using Attendance.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Attendance.BusinessLogic
+{
+    public class MaintenanceOffBusinessLogic
+    {
+
+        public string GetFinalDate(string StaffId, string FromDate, string ToDate, int Flag)
+        {
+            var repo = new MaintenanceOffRepository();
+            var str = repo.GetFinalDate(StaffId, FromDate, ToDate, Flag);
+            return str;
+        }
+
+        public string ValidateMaintenanceOff(string StaffId, string FromDate, string ToDate, bool IsFixed)
+        {
+            var repo = new MaintenanceOffRepository();
+            var lst = repo.ValidateMaintenanceOff(StaffId, FromDate, ToDate, IsFixed);
+            return lst;
+        }
+
+        public List<MOApplicableYear> GetMOffApplicableYear(string id)
+        {
+            var repo = new MaintenanceOffRepository();
+            var lst = repo.GetMOffApplicableYear(id);
+            return lst;
+        }
+
+        public void CancelMOffApplication(string ApplicatinId)
+        {
+            var repo = new MaintenanceOffRepository();
+            repo.CancelMOffApplication(ApplicatinId);
+        }
+
+        public List<MaintenanceOffList> GetAllMaintenanceOff(string id)
+        {
+            var repo = new MaintenanceOffRepository();
+            var lst = repo.GetAllMaintenanceOff(id);
+            return lst;
+        }
+
+        public bool CanMOffBeOpened()
+        {
+            var repo = new MaintenanceOffRepository();
+            var str = repo.CanMOffBeOpened();
+            return str;
+        }
+
+        public string GetFirstLetterGrade(string id)
+        {
+            var repo = new MaintenanceOffRepository();
+            var str = repo.GetFirstLetterGrade(id);
+            return str;
+        }
+
+        public string SaveCoffInfo(MaintenanceOff MaintenanceOff)
+        {
+            var repo = new MaintenanceOffRepository();
+            repo.SaveMaintenanceOffInfo(MaintenanceOff);
+            return null;
+        }
+
+        public string GetLeaveBalBusi(string StaffId)
+        {
+            var repo = new MaintenanceOffRepository();
+            return repo.GetLeaveBalRep(StaffId);
+        }
+        public string Getapproval(string StaffId)
+        {
+            var repo = new MaintenanceOffRepository();
+            return repo.GetApproval(StaffId);
+        }
+    }
+}

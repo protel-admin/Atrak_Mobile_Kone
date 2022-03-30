@@ -1,0 +1,820 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A37D816C-5B46-4583-B9D3-5BA37464F454}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Attendance.Repository</RootNamespace>
+    <AssemblyName>Attendance.Repository</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationEntryRepository.cs" />
+    <Compile Include="AssociationRepository.cs" />
+    <Compile Include="AttendancePolicyRepository.cs" />
+    <Compile Include="AttendanceProcessingRepository.cs" />
+    <Compile Include="BenchReportingManagerRepository.cs" />
+    <Compile Include="BulkUpdateRepository.cs" />
+    <Compile Include="CommonRepository.cs" />
+    <Compile Include="AttendanceManagementContext.cs" />
+    <Compile Include="AttendanceManagementInitializer.cs" />
+    <Compile Include="CalendarRepository.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="CostCentreRepository.cs" />
+    <Compile Include="DeleteEmployeeShiftPlanRepository.cs" />
+    <Compile Include="DepartmentRepository.cs" />
+    <Compile Include="DesignationRepository.cs" />
+    <Compile Include="DivisionRepository.cs" />
+    <Compile Include="DutyRoosterRepository.cs" />
+    <Compile Include="EmailForwardingconfigRepository.cs" />
+    <Compile Include="EmployeeGroupRepository.cs" />
+    <Compile Include="EmployeeGroupShiftPlanAssociationRepository.cs" />
+    <Compile Include="EmployeeImportRepository.cs" />
+    <Compile Include="EmployeeListRepository.cs" />
+    <Compile Include="EmployeeShiftPlanRepository.cs" />
+    <Compile Include="ExecuteShiftPatternRepository.cs" />
+    <Compile Include="FinancialYearRepository.cs" />
+    <Compile Include="GradeRepository.cs" />
+    <Compile Include="HierarchyRepository.cs" />
+    <Compile Include="HolidayRepository.cs" />
+    <Compile Include="HolidayZoneRepository.cs" />
+    <Compile Include="LandingPageRepository.cs" />
+    <Compile Include="LaterOffDateRepository.cs" />
+    <Compile Include="LaterOffRepository.cs" />
+    <Compile Include="IndividualLeaveCreditDebitRepository.cs" />
+    <Compile Include="LeaveGroupRepository.cs" />
+    <Compile Include="LeaveTypeRepository.cs" />
+    <Compile Include="LogRepository.cs" />
+    <Compile Include="MaintenanceOffRepository.cs" />
+    <Compile Include="MasterRepository.cs" />
+    <Compile Include="Migrations\201605181114558_ChangedUserRegistration.cs" />
+    <Compile Include="Migrations\201605181114558_ChangedUserRegistration.Designer.cs">
+      <DependentUpon>201605181114558_ChangedUserRegistration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605181158231_AddedFieldInAttendanceData.cs" />
+    <Compile Include="Migrations\201605181158231_AddedFieldInAttendanceData.Designer.cs">
+      <DependentUpon>201605181158231_AddedFieldInAttendanceData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606250128309_AddedTableVolume.cs" />
+    <Compile Include="Migrations\201606250128309_AddedTableVolume.Designer.cs">
+      <DependentUpon>201606250128309_AddedTableVolume.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606250134352_AddedTableVolume1.cs" />
+    <Compile Include="Migrations\201606250134352_AddedTableVolume1.Designer.cs">
+      <DependentUpon>201606250134352_AddedTableVolume1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606250235289_AddedFieldVolumeIdInStaffOfficial.cs" />
+    <Compile Include="Migrations\201606250235289_AddedFieldVolumeIdInStaffOfficial.Designer.cs">
+      <DependentUpon>201606250235289_AddedFieldVolumeIdInStaffOfficial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608100503293_ChangesForDeployment20160810.cs" />
+    <Compile Include="Migrations\201608100503293_ChangesForDeployment20160810.Designer.cs">
+      <DependentUpon>201608100503293_ChangesForDeployment20160810.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608311608125_AddedTableShiftPostingPattern.cs" />
+    <Compile Include="Migrations\201608311608125_AddedTableShiftPostingPattern.Designer.cs">
+      <DependentUpon>201608311608125_AddedTableShiftPostingPattern.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609011204281_EnabledIdentity.cs" />
+    <Compile Include="Migrations\201609011204281_EnabledIdentity.Designer.cs">
+      <DependentUpon>201609011204281_EnabledIdentity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609150713079_AddingFieldsInApplicationEntryCOnandCBy.cs" />
+    <Compile Include="Migrations\201609150713079_AddingFieldsInApplicationEntryCOnandCBy.Designer.cs">
+      <DependentUpon>201609150713079_AddingFieldsInApplicationEntryCOnandCBy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609200934489_AddTableEmpShiftPlanAndColumnPatternDescInWDP.cs" />
+    <Compile Include="Migrations\201609200934489_AddTableEmpShiftPlanAndColumnPatternDescInWDP.Designer.cs">
+      <DependentUpon>201609200934489_AddTableEmpShiftPlanAndColumnPatternDescInWDP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609240647012_ChangeInDtypeOfShiftsTable.cs" />
+    <Compile Include="Migrations\201609240647012_ChangeInDtypeOfShiftsTable.Designer.cs">
+      <DependentUpon>201609240647012_ChangeInDtypeOfShiftsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609240941469_ChangeRPMToNullInStafffOff.cs" />
+    <Compile Include="Migrations\201609240941469_ChangeRPMToNullInStafffOff.Designer.cs">
+      <DependentUpon>201609240941469_ChangeRPMToNullInStafffOff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610031424547_ChangeLastUpDateToNotNull.cs" />
+    <Compile Include="Migrations\201610031424547_ChangeLastUpDateToNotNull.Designer.cs">
+      <DependentUpon>201610031424547_ChangeLastUpDateToNotNull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610130607492_AddingFieldIsWeekPatternInESP.cs" />
+    <Compile Include="Migrations\201610130607492_AddingFieldIsWeekPatternInESP.Designer.cs">
+      <DependentUpon>201610130607492_AddingFieldIsWeekPatternInESP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610190541458_AddingFieldVolumeIdinSO.cs" />
+    <Compile Include="Migrations\201610190541458_AddingFieldVolumeIdinSO.Designer.cs">
+      <DependentUpon>201610190541458_AddingFieldVolumeIdinSO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611010627050_AddingTableLCANDRefIdInELA.cs" />
+    <Compile Include="Migrations\201611010627050_AddingTableLCANDRefIdInELA.Designer.cs">
+      <DependentUpon>201611010627050_AddingTableLCANDRefIdInELA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611081356506_AddingFieldStartDateInESP.cs" />
+    <Compile Include="Migrations\201611081356506_AddingFieldStartDateInESP.Designer.cs">
+      <DependentUpon>201611081356506_AddingFieldStartDateInESP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611140548522_AddingFieldUsedAsGSInShiftPattern.cs" />
+    <Compile Include="Migrations\201611140548522_AddingFieldUsedAsGSInShiftPattern.Designer.cs">
+      <DependentUpon>201611140548522_AddingFieldUsedAsGSInShiftPattern.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612021159464_AddingFieldAppTypeAndAppIdInACT.cs" />
+    <Compile Include="Migrations\201612021159464_AddingFieldAppTypeAndAppIdInACT.Designer.cs">
+      <DependentUpon>201612021159464_AddingFieldAppTypeAndAppIdInACT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702171638189_AddedFieldInEmployeeShiftPlan.cs" />
+    <Compile Include="Migrations\201702171638189_AddedFieldInEmployeeShiftPlan.Designer.cs">
+      <DependentUpon>201702171638189_AddedFieldInEmployeeShiftPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703090637325_IncDesgShortNameLento10.cs" />
+    <Compile Include="Migrations\201703090637325_IncDesgShortNameLento10.Designer.cs">
+      <DependentUpon>201703090637325_IncDesgShortNameLento10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704050945554_AddedFieldReasonInESP.cs" />
+    <Compile Include="Migrations\201704050945554_AddedFieldReasonInESP.Designer.cs">
+      <DependentUpon>201704050945554_AddedFieldReasonInESP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705250648580_AddedEmployeePhotoTable.cs" />
+    <Compile Include="Migrations\201705250648580_AddedEmployeePhotoTable.Designer.cs">
+      <DependentUpon>201705250648580_AddedEmployeePhotoTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705260858583_RemovedRequiredTagStaff.cs" />
+    <Compile Include="Migrations\201705260858583_RemovedRequiredTagStaff.Designer.cs">
+      <DependentUpon>201705260858583_RemovedRequiredTagStaff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705270551426_RemovedIdFieldEmployeePhoto.cs" />
+    <Compile Include="Migrations\201705270551426_RemovedIdFieldEmployeePhoto.Designer.cs">
+      <DependentUpon>201705270551426_RemovedIdFieldEmployeePhoto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705270648104_RemovedIdentityEmployeePhoto.cs" />
+    <Compile Include="Migrations\201705270648104_RemovedIdentityEmployeePhoto.Designer.cs">
+      <DependentUpon>201705270648104_RemovedIdentityEmployeePhoto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706150840024_AddedTableChangeAuditLog.cs" />
+    <Compile Include="Migrations\201706150840024_AddedTableChangeAuditLog.Designer.cs">
+      <DependentUpon>201706150840024_AddedTableChangeAuditLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706270515270_AddedFieldInShifts.cs" />
+    <Compile Include="Migrations\201706270515270_AddedFieldInShifts.Designer.cs">
+      <DependentUpon>201706270515270_AddedFieldInShifts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706270826266_AddedFieldInLeaveTypeTable.cs" />
+    <Compile Include="Migrations\201706270826266_AddedFieldInLeaveTypeTable.Designer.cs">
+      <DependentUpon>201706270826266_AddedFieldInLeaveTypeTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706271304309_AddedFieldInShiftPattern.cs" />
+    <Compile Include="Migrations\201706271304309_AddedFieldInShiftPattern.Designer.cs">
+      <DependentUpon>201706271304309_AddedFieldInShiftPattern.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706271510142_AddedFieldInSPP.cs" />
+    <Compile Include="Migrations\201706271510142_AddedFieldInSPP.Designer.cs">
+      <DependentUpon>201706271510142_AddedFieldInSPP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706281319539_AddedFieldInWeeklyOffs.cs" />
+    <Compile Include="Migrations\201706281319539_AddedFieldInWeeklyOffs.Designer.cs">
+      <DependentUpon>201706281319539_AddedFieldInWeeklyOffs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706300913252_AddedFieldInHolidayGroup.cs" />
+    <Compile Include="Migrations\201706300913252_AddedFieldInHolidayGroup.Designer.cs">
+      <DependentUpon>201706300913252_AddedFieldInHolidayGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707240544511_AddedUploadControlTable.cs" />
+    <Compile Include="Migrations\201707240544511_AddedUploadControlTable.Designer.cs">
+      <DependentUpon>201707240544511_AddedUploadControlTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708180755077_AddedFieldAadharNoInStaffPer.cs" />
+    <Compile Include="Migrations\201708180755077_AddedFieldAadharNoInStaffPer.Designer.cs">
+      <DependentUpon>201708180755077_AddedFieldAadharNoInStaffPer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708231342526_RenameColDeptIdToStaffIdInTeamHierachy.cs" />
+    <Compile Include="Migrations\201708231342526_RenameColDeptIdToStaffIdInTeamHierachy.Designer.cs">
+      <DependentUpon>201708231342526_RenameColDeptIdToStaffIdInTeamHierachy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709210750244_AddedfieldinManualPunchTable.cs" />
+    <Compile Include="Migrations\201709210750244_AddedfieldinManualPunchTable.Designer.cs">
+      <DependentUpon>201709210750244_AddedfieldinManualPunchTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709261155235_AddedColumninAttendancedataTable.cs" />
+    <Compile Include="Migrations\201709261155235_AddedColumninAttendancedataTable.Designer.cs">
+      <DependentUpon>201709261155235_AddedColumninAttendancedataTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710250602472_AddedFieldCByInAD.cs" />
+    <Compile Include="Migrations\201710250602472_AddedFieldCByInAD.Designer.cs">
+      <DependentUpon>201710250602472_AddedFieldCByInAD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712151359500_AddedTableStaffEditRequest.cs" />
+    <Compile Include="Migrations\201712151359500_AddedTableStaffEditRequest.Designer.cs">
+      <DependentUpon>201712151359500_AddedTableStaffEditRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712190648135_ChangeInDTypeOfCreatedOn.cs" />
+    <Compile Include="Migrations\201712190648135_ChangeInDTypeOfCreatedOn.Designer.cs">
+      <DependentUpon>201712190648135_ChangeInDTypeOfCreatedOn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712280659247_AddedAdditionalFandAddFValueTable.cs" />
+    <Compile Include="Migrations\201712280659247_AddedAdditionalFandAddFValueTable.Designer.cs">
+      <DependentUpon>201712280659247_AddedAdditionalFandAddFValueTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712290515381_AddedColumnInStaffEditRequest.cs" />
+    <Compile Include="Migrations\201712290515381_AddedColumnInStaffEditRequest.Designer.cs">
+      <DependentUpon>201712290515381_AddedColumnInStaffEditRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801251202362_Updatedstaffidlengthinalltable.cs" />
+    <Compile Include="Migrations\201801251202362_Updatedstaffidlengthinalltable.Designer.cs">
+      <DependentUpon>201801251202362_Updatedstaffidlengthinalltable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802021247292_changedfieldinauditlog.cs" />
+    <Compile Include="Migrations\201802021247292_changedfieldinauditlog.Designer.cs">
+      <DependentUpon>201802021247292_changedfieldinauditlog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802230508353_BenchReportingManager.cs" />
+    <Compile Include="Migrations\201802230508353_BenchReportingManager.Designer.cs">
+      <DependentUpon>201802230508353_BenchReportingManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802230530596_BenchReportingManager4.cs" />
+    <Compile Include="Migrations\201802230530596_BenchReportingManager4.Designer.cs">
+      <DependentUpon>201802230530596_BenchReportingManager4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802240922320_WorkStation.cs" />
+    <Compile Include="Migrations\201802240922320_WorkStation.Designer.cs">
+      <DependentUpon>201802240922320_WorkStation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802260903113_SubordinateTree.cs" />
+    <Compile Include="Migrations\201802260903113_SubordinateTree.Designer.cs">
+      <DependentUpon>201802260903113_SubordinateTree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803011219443_AttachDetachLog.cs" />
+    <Compile Include="Migrations\201803011219443_AttachDetachLog.Designer.cs">
+      <DependentUpon>201803011219443_AttachDetachLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803011244084_AddedIsAttachDetachFieldToStaff.cs" />
+    <Compile Include="Migrations\201803011244084_AddedIsAttachDetachFieldToStaff.Designer.cs">
+      <DependentUpon>201803011244084_AddedIsAttachDetachFieldToStaff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804060723271_AddedTableRequestApplication.cs" />
+    <Compile Include="Migrations\201804060723271_AddedTableRequestApplication.Designer.cs">
+      <DependentUpon>201804060723271_AddedTableRequestApplication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804061222291_AddedFieldIsRejectedToRequestApplication.cs" />
+    <Compile Include="Migrations\201804061222291_AddedFieldIsRejectedToRequestApplication.Designer.cs">
+      <DependentUpon>201804061222291_AddedFieldIsRejectedToRequestApplication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804061229489_ChangedFieldsInRequestApplication.cs" />
+    <Compile Include="Migrations\201804061229489_ChangedFieldsInRequestApplication.Designer.cs">
+      <DependentUpon>201804061229489_ChangedFieldsInRequestApplication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804061354321_ChangedFieldIdRequestApplication.cs" />
+    <Compile Include="Migrations\201804061354321_ChangedFieldIdRequestApplication.Designer.cs">
+      <DependentUpon>201804061354321_ChangedFieldIdRequestApplication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804061405275_ChangedFieldIdRequestApplication1.cs" />
+    <Compile Include="Migrations\201804061405275_ChangedFieldIdRequestApplication1.Designer.cs">
+      <DependentUpon>201804061405275_ChangedFieldIdRequestApplication1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804091019074_ChangedDataFieldForApplicationApproval.cs" />
+    <Compile Include="Migrations\201804091019074_ChangedDataFieldForApplicationApproval.Designer.cs">
+      <DependentUpon>201804091019074_ChangedDataFieldForApplicationApproval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804091224120_ChangedDataFieldForApplicationApproval1.cs" />
+    <Compile Include="Migrations\201804091224120_ChangedDataFieldForApplicationApproval1.Designer.cs">
+      <DependentUpon>201804091224120_ChangedDataFieldForApplicationApproval1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804111310515_IncreasedColumnWidthOfRefId.cs" />
+    <Compile Include="Migrations\201804111310515_IncreasedColumnWidthOfRefId.Designer.cs">
+      <DependentUpon>201804111310515_IncreasedColumnWidthOfRefId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804121100271_NewTableTesting.cs" />
+    <Compile Include="Migrations\201804121100271_NewTableTesting.Designer.cs">
+      <DependentUpon>201804121100271_NewTableTesting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804211235529_AddedTableLeaveCreditDebitReason.cs" />
+    <Compile Include="Migrations\201804211235529_AddedTableLeaveCreditDebitReason.Designer.cs">
+      <DependentUpon>201804211235529_AddedTableLeaveCreditDebitReason.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804250709170_ChangedTheColumnDataType.cs" />
+    <Compile Include="Migrations\201804250709170_ChangedTheColumnDataType.Designer.cs">
+      <DependentUpon>201804250709170_ChangedTheColumnDataType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805110716157_DocumentUpload.cs" />
+    <Compile Include="Migrations\201805110716157_DocumentUpload.Designer.cs">
+      <DependentUpon>201805110716157_DocumentUpload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809211659182_ForgotPassword.cs" />
+    <Compile Include="Migrations\201809211659182_ForgotPassword.Designer.cs">
+      <DependentUpon>201809211659182_ForgotPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809281527125_Leavetype_ShiftLc.cs" />
+    <Compile Include="Migrations\201809281527125_Leavetype_ShiftLc.Designer.cs">
+      <DependentUpon>201809281527125_Leavetype_ShiftLc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810011023104_changing_data_type.cs" />
+    <Compile Include="Migrations\201810011023104_changing_data_type.Designer.cs">
+      <DependentUpon>201810011023104_changing_data_type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810011103363_changing_data_type_Alternative.cs" />
+    <Compile Include="Migrations\201810011103363_changing_data_type_Alternative.Designer.cs">
+      <DependentUpon>201810011103363_changing_data_type_Alternative.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810011113103_lastfordatatype.cs" />
+    <Compile Include="Migrations\201810011113103_lastfordatatype.Designer.cs">
+      <DependentUpon>201810011113103_lastfordatatype.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810011121532_finalUpdate.cs" />
+    <Compile Include="Migrations\201810011121532_finalUpdate.Designer.cs">
+      <DependentUpon>201810011121532_finalUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810011151563_dropingtable.cs" />
+    <Compile Include="Migrations\201810011151563_dropingtable.Designer.cs">
+      <DependentUpon>201810011151563_dropingtable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810011154166_createnewAssignTable.cs" />
+    <Compile Include="Migrations\201810011154166_createnewAssignTable.Designer.cs">
+      <DependentUpon>201810011154166_createnewAssignTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810101328005_RuleGroup_LocationId.cs" />
+    <Compile Include="Migrations\201810101328005_RuleGroup_LocationId.Designer.cs">
+      <DependentUpon>201810101328005_RuleGroup_LocationId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811151507017_StaffInformationUpdate.cs" />
+    <Compile Include="Migrations\201811151507017_StaffInformationUpdate.Designer.cs">
+      <DependentUpon>201811151507017_StaffInformationUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811241346558_AddedIsReviewedByinRequestApplication.cs" />
+    <Compile Include="Migrations\201811241346558_AddedIsReviewedByinRequestApplication.Designer.cs">
+      <DependentUpon>201811241346558_AddedIsReviewedByinRequestApplication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811290808036_UpdateOTapplicationandAlternativePersonAssign.cs" />
+    <Compile Include="Migrations\201811290808036_UpdateOTapplicationandAlternativePersonAssign.Designer.cs">
+      <DependentUpon>201811290808036_UpdateOTapplicationandAlternativePersonAssign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812241423461_AddedReviewerCancelActioninRequestApplication.cs" />
+    <Compile Include="Migrations\201812241423461_AddedReviewerCancelActioninRequestApplication.Designer.cs">
+      <DependentUpon>201812241423461_AddedReviewerCancelActioninRequestApplication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812260950011_RequestApplicationViewModel.cs" />
+    <Compile Include="Migrations\201812260950011_RequestApplicationViewModel.Designer.cs">
+      <DependentUpon>201812260950011_RequestApplicationViewModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902011421198_StaffOfficialUpdate.cs" />
+    <Compile Include="Migrations\201902011421198_StaffOfficialUpdate.Designer.cs">
+      <DependentUpon>201902011421198_StaffOfficialUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902120934170_AddedTableManualShiftChangeGrid.cs" />
+    <Compile Include="Migrations\201902120934170_AddedTableManualShiftChangeGrid.Designer.cs">
+      <DependentUpon>201902120934170_AddedTableManualShiftChangeGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904040627264_ShiftImportTableandUpdatedLeaveGroupTxns.cs" />
+    <Compile Include="Migrations\201904040627264_ShiftImportTableandUpdatedLeaveGroupTxns.Designer.cs">
+      <DependentUpon>201904040627264_ShiftImportTableandUpdatedLeaveGroupTxns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904050945539_UpdateEmployeeLeaveAccount.cs" />
+    <Compile Include="Migrations\201904050945539_UpdateEmployeeLeaveAccount.Designer.cs">
+      <DependentUpon>201904050945539_UpdateEmployeeLeaveAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905071219500_AddedNewTableEmailForwardConfig.cs" />
+    <Compile Include="Migrations\201905071219500_AddedNewTableEmailForwardConfig.Designer.cs">
+      <DependentUpon>201905071219500_AddedNewTableEmailForwardConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905071331171_AddedLocationColumninTableEmailForwardConfig.cs" />
+    <Compile Include="Migrations\201905071331171_AddedLocationColumninTableEmailForwardConfig.Designer.cs">
+      <DependentUpon>201905071331171_AddedLocationColumninTableEmailForwardConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905281520221_AddColumnSAPShiftNameInShiftTable.cs" />
+    <Compile Include="Migrations\201905281520221_AddColumnSAPShiftNameInShiftTable.Designer.cs">
+      <DependentUpon>201905281520221_AddColumnSAPShiftNameInShiftTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907270755120_AddShiftExtensionAndDoubleShiftTable.cs" />
+    <Compile Include="Migrations\201907270755120_AddShiftExtensionAndDoubleShiftTable.Designer.cs">
+      <DependentUpon>201907270755120_AddShiftExtensionAndDoubleShiftTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907300540377_AddColumnIsOTEligibleinStaffOfficial.cs" />
+    <Compile Include="Migrations\201907300540377_AddColumnIsOTEligibleinStaffOfficial.Designer.cs">
+      <DependentUpon>201907300540377_AddColumnIsOTEligibleinStaffOfficial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907301121240_AddColumnForIsmanualStatusToExHrsWrkdByinAttendancedata.cs" />
+    <Compile Include="Migrations\201907301121240_AddColumnForIsmanualStatusToExHrsWrkdByinAttendancedata.Designer.cs">
+      <DependentUpon>201907301121240_AddColumnForIsmanualStatusToExHrsWrkdByinAttendancedata.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907311522430_increaseMaxlengthInELATable.cs" />
+    <Compile Include="Migrations\201907311522430_increaseMaxlengthInELATable.Designer.cs">
+      <DependentUpon>201907311522430_increaseMaxlengthInELATable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910120740456_RemovedIdentityToIdOfShiftExtension.cs" />
+    <Compile Include="Migrations\201910120740456_RemovedIdentityToIdOfShiftExtension.Designer.cs">
+      <DependentUpon>201910120740456_RemovedIdentityToIdOfShiftExtension.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008110700432_AddedField_IsMobileAppEligible_In_StaffOfficial.cs" />
+    <Compile Include="Migrations\202008110700432_AddedField_IsMobileAppEligible_In_StaffOfficial.Designer.cs">
+      <DependentUpon>202008110700432_AddedField_IsMobileAppEligible_In_StaffOfficial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008110744526_AddedTable_MobileSwipeTransactions.cs" />
+    <Compile Include="Migrations\202008110744526_AddedTable_MobileSwipeTransactions.Designer.cs">
+      <DependentUpon>202008110744526_AddedTable_MobileSwipeTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011021010181_AlterColumnRequestApplication15102020.cs" />
+    <Compile Include="Migrations\202011021010181_AlterColumnRequestApplication15102020.Designer.cs">
+      <DependentUpon>202011021010181_AlterColumnRequestApplication15102020.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="OTApplicationRepository.cs" />
+    <Compile Include="OTRepository.cs" />
+    <Compile Include="OverTimeRepository.cs" />
+    <Compile Include="PrefixSuffixRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RACoffCreditApplicationRepository.cs" />
+    <Compile Include="RACoffRequestApplicationRepository.cs" />
+    <Compile Include="RALeaveApplicationRepository.cs" />
+    <Compile Include="RAManualPunchApplicationRepository.cs" />
+    <Compile Include="RAOnDutyApplicationRepository.cs" />
+    <Compile Include="RAOTApplicationRepository.cs" />
+    <Compile Include="RAPermissionApplicationRepository.cs" />
+    <Compile Include="ReportRepository.cs" />
+    <Compile Include="RHEntryRepository.cs" />
+    <Compile Include="RHRepository.cs" />
+    <Compile Include="SecurityGroupRepository.cs" />
+    <Compile Include="ShiftChangeRepository.cs" />
+    <Compile Include="ShiftChangeViewRepository.cs" />
+    <Compile Include="ShiftPatternNewRepository.cs" />
+    <Compile Include="ShiftPatternRepository.cs" />
+    <Compile Include="ShiftsRepository.cs" />
+    <Compile Include="ShiftWeeklyPostingRepository.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="StaffDrillDownRepository.cs" />
+    <Compile Include="StaffListRepository.cs" />
+    <Compile Include="StaffRepository.cs" />
+    <Compile Include="TrackChangeRepository.cs" />
+    <Compile Include="UserLandingPageRepository.cs" />
+    <Compile Include="VisitorPassListRepository.cs" />
+    <Compile Include="VisitorPassRepository.cs" />
+    <Compile Include="WeeklyOffRepository.cs" />
+    <Compile Include="WorkStationRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Attendance.Model\Attendance.Model.csproj">
+      <Project>{5fbd5092-4f5a-40f3-9e4c-a491fb044b18}</Project>
+      <Name>Attendance.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605181114558_ChangedUserRegistration.resx">
+      <DependentUpon>201605181114558_ChangedUserRegistration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605181158231_AddedFieldInAttendanceData.resx">
+      <DependentUpon>201605181158231_AddedFieldInAttendanceData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606250128309_AddedTableVolume.resx">
+      <DependentUpon>201606250128309_AddedTableVolume.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606250134352_AddedTableVolume1.resx">
+      <DependentUpon>201606250134352_AddedTableVolume1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606250235289_AddedFieldVolumeIdInStaffOfficial.resx">
+      <DependentUpon>201606250235289_AddedFieldVolumeIdInStaffOfficial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608100503293_ChangesForDeployment20160810.resx">
+      <DependentUpon>201608100503293_ChangesForDeployment20160810.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608311608125_AddedTableShiftPostingPattern.resx">
+      <DependentUpon>201608311608125_AddedTableShiftPostingPattern.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609011204281_EnabledIdentity.resx">
+      <DependentUpon>201609011204281_EnabledIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609150713079_AddingFieldsInApplicationEntryCOnandCBy.resx">
+      <DependentUpon>201609150713079_AddingFieldsInApplicationEntryCOnandCBy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609200934489_AddTableEmpShiftPlanAndColumnPatternDescInWDP.resx">
+      <DependentUpon>201609200934489_AddTableEmpShiftPlanAndColumnPatternDescInWDP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609240647012_ChangeInDtypeOfShiftsTable.resx">
+      <DependentUpon>201609240647012_ChangeInDtypeOfShiftsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609240941469_ChangeRPMToNullInStafffOff.resx">
+      <DependentUpon>201609240941469_ChangeRPMToNullInStafffOff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610031424547_ChangeLastUpDateToNotNull.resx">
+      <DependentUpon>201610031424547_ChangeLastUpDateToNotNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610130607492_AddingFieldIsWeekPatternInESP.resx">
+      <DependentUpon>201610130607492_AddingFieldIsWeekPatternInESP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610190541458_AddingFieldVolumeIdinSO.resx">
+      <DependentUpon>201610190541458_AddingFieldVolumeIdinSO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611010627050_AddingTableLCANDRefIdInELA.resx">
+      <DependentUpon>201611010627050_AddingTableLCANDRefIdInELA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611081356506_AddingFieldStartDateInESP.resx">
+      <DependentUpon>201611081356506_AddingFieldStartDateInESP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611140548522_AddingFieldUsedAsGSInShiftPattern.resx">
+      <DependentUpon>201611140548522_AddingFieldUsedAsGSInShiftPattern.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612021159464_AddingFieldAppTypeAndAppIdInACT.resx">
+      <DependentUpon>201612021159464_AddingFieldAppTypeAndAppIdInACT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702171638189_AddedFieldInEmployeeShiftPlan.resx">
+      <DependentUpon>201702171638189_AddedFieldInEmployeeShiftPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703090637325_IncDesgShortNameLento10.resx">
+      <DependentUpon>201703090637325_IncDesgShortNameLento10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704050945554_AddedFieldReasonInESP.resx">
+      <DependentUpon>201704050945554_AddedFieldReasonInESP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705250648580_AddedEmployeePhotoTable.resx">
+      <DependentUpon>201705250648580_AddedEmployeePhotoTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705260858583_RemovedRequiredTagStaff.resx">
+      <DependentUpon>201705260858583_RemovedRequiredTagStaff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705270551426_RemovedIdFieldEmployeePhoto.resx">
+      <DependentUpon>201705270551426_RemovedIdFieldEmployeePhoto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705270648104_RemovedIdentityEmployeePhoto.resx">
+      <DependentUpon>201705270648104_RemovedIdentityEmployeePhoto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706150840024_AddedTableChangeAuditLog.resx">
+      <DependentUpon>201706150840024_AddedTableChangeAuditLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706270515270_AddedFieldInShifts.resx">
+      <DependentUpon>201706270515270_AddedFieldInShifts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706270826266_AddedFieldInLeaveTypeTable.resx">
+      <DependentUpon>201706270826266_AddedFieldInLeaveTypeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706271304309_AddedFieldInShiftPattern.resx">
+      <DependentUpon>201706271304309_AddedFieldInShiftPattern.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706271510142_AddedFieldInSPP.resx">
+      <DependentUpon>201706271510142_AddedFieldInSPP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706281319539_AddedFieldInWeeklyOffs.resx">
+      <DependentUpon>201706281319539_AddedFieldInWeeklyOffs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706300913252_AddedFieldInHolidayGroup.resx">
+      <DependentUpon>201706300913252_AddedFieldInHolidayGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707240544511_AddedUploadControlTable.resx">
+      <DependentUpon>201707240544511_AddedUploadControlTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708180755077_AddedFieldAadharNoInStaffPer.resx">
+      <DependentUpon>201708180755077_AddedFieldAadharNoInStaffPer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708231342526_RenameColDeptIdToStaffIdInTeamHierachy.resx">
+      <DependentUpon>201708231342526_RenameColDeptIdToStaffIdInTeamHierachy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709210750244_AddedfieldinManualPunchTable.resx">
+      <DependentUpon>201709210750244_AddedfieldinManualPunchTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709261155235_AddedColumninAttendancedataTable.resx">
+      <DependentUpon>201709261155235_AddedColumninAttendancedataTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710250602472_AddedFieldCByInAD.resx">
+      <DependentUpon>201710250602472_AddedFieldCByInAD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712151359500_AddedTableStaffEditRequest.resx">
+      <DependentUpon>201712151359500_AddedTableStaffEditRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712190648135_ChangeInDTypeOfCreatedOn.resx">
+      <DependentUpon>201712190648135_ChangeInDTypeOfCreatedOn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712280659247_AddedAdditionalFandAddFValueTable.resx">
+      <DependentUpon>201712280659247_AddedAdditionalFandAddFValueTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712290515381_AddedColumnInStaffEditRequest.resx">
+      <DependentUpon>201712290515381_AddedColumnInStaffEditRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801251202362_Updatedstaffidlengthinalltable.resx">
+      <DependentUpon>201801251202362_Updatedstaffidlengthinalltable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802021247292_changedfieldinauditlog.resx">
+      <DependentUpon>201802021247292_changedfieldinauditlog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802230508353_BenchReportingManager.resx">
+      <DependentUpon>201802230508353_BenchReportingManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802230530596_BenchReportingManager4.resx">
+      <DependentUpon>201802230530596_BenchReportingManager4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802240922320_WorkStation.resx">
+      <DependentUpon>201802240922320_WorkStation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802260903113_SubordinateTree.resx">
+      <DependentUpon>201802260903113_SubordinateTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803011219443_AttachDetachLog.resx">
+      <DependentUpon>201803011219443_AttachDetachLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803011244084_AddedIsAttachDetachFieldToStaff.resx">
+      <DependentUpon>201803011244084_AddedIsAttachDetachFieldToStaff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804060723271_AddedTableRequestApplication.resx">
+      <DependentUpon>201804060723271_AddedTableRequestApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804061222291_AddedFieldIsRejectedToRequestApplication.resx">
+      <DependentUpon>201804061222291_AddedFieldIsRejectedToRequestApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804061229489_ChangedFieldsInRequestApplication.resx">
+      <DependentUpon>201804061229489_ChangedFieldsInRequestApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804061354321_ChangedFieldIdRequestApplication.resx">
+      <DependentUpon>201804061354321_ChangedFieldIdRequestApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804061405275_ChangedFieldIdRequestApplication1.resx">
+      <DependentUpon>201804061405275_ChangedFieldIdRequestApplication1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804091019074_ChangedDataFieldForApplicationApproval.resx">
+      <DependentUpon>201804091019074_ChangedDataFieldForApplicationApproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804091224120_ChangedDataFieldForApplicationApproval1.resx">
+      <DependentUpon>201804091224120_ChangedDataFieldForApplicationApproval1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804111310515_IncreasedColumnWidthOfRefId.resx">
+      <DependentUpon>201804111310515_IncreasedColumnWidthOfRefId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804121100271_NewTableTesting.resx">
+      <DependentUpon>201804121100271_NewTableTesting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804211235529_AddedTableLeaveCreditDebitReason.resx">
+      <DependentUpon>201804211235529_AddedTableLeaveCreditDebitReason.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804250709170_ChangedTheColumnDataType.resx">
+      <DependentUpon>201804250709170_ChangedTheColumnDataType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805110716157_DocumentUpload.resx">
+      <DependentUpon>201805110716157_DocumentUpload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809211659182_ForgotPassword.resx">
+      <DependentUpon>201809211659182_ForgotPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809281527125_Leavetype_ShiftLc.resx">
+      <DependentUpon>201809281527125_Leavetype_ShiftLc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810011023104_changing_data_type.resx">
+      <DependentUpon>201810011023104_changing_data_type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810011103363_changing_data_type_Alternative.resx">
+      <DependentUpon>201810011103363_changing_data_type_Alternative.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810011113103_lastfordatatype.resx">
+      <DependentUpon>201810011113103_lastfordatatype.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810011121532_finalUpdate.resx">
+      <DependentUpon>201810011121532_finalUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810011151563_dropingtable.resx">
+      <DependentUpon>201810011151563_dropingtable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810011154166_createnewAssignTable.resx">
+      <DependentUpon>201810011154166_createnewAssignTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810101328005_RuleGroup_LocationId.resx">
+      <DependentUpon>201810101328005_RuleGroup_LocationId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811151507017_StaffInformationUpdate.resx">
+      <DependentUpon>201811151507017_StaffInformationUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811241346558_AddedIsReviewedByinRequestApplication.resx">
+      <DependentUpon>201811241346558_AddedIsReviewedByinRequestApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811290808036_UpdateOTapplicationandAlternativePersonAssign.resx">
+      <DependentUpon>201811290808036_UpdateOTapplicationandAlternativePersonAssign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812241423461_AddedReviewerCancelActioninRequestApplication.resx">
+      <DependentUpon>201812241423461_AddedReviewerCancelActioninRequestApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812260950011_RequestApplicationViewModel.resx">
+      <DependentUpon>201812260950011_RequestApplicationViewModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902011421198_StaffOfficialUpdate.resx">
+      <DependentUpon>201902011421198_StaffOfficialUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902120934170_AddedTableManualShiftChangeGrid.resx">
+      <DependentUpon>201902120934170_AddedTableManualShiftChangeGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904040627264_ShiftImportTableandUpdatedLeaveGroupTxns.resx">
+      <DependentUpon>201904040627264_ShiftImportTableandUpdatedLeaveGroupTxns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904050945539_UpdateEmployeeLeaveAccount.resx">
+      <DependentUpon>201904050945539_UpdateEmployeeLeaveAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905071219500_AddedNewTableEmailForwardConfig.resx">
+      <DependentUpon>201905071219500_AddedNewTableEmailForwardConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905071331171_AddedLocationColumninTableEmailForwardConfig.resx">
+      <DependentUpon>201905071331171_AddedLocationColumninTableEmailForwardConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905281520221_AddColumnSAPShiftNameInShiftTable.resx">
+      <DependentUpon>201905281520221_AddColumnSAPShiftNameInShiftTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907270755120_AddShiftExtensionAndDoubleShiftTable.resx">
+      <DependentUpon>201907270755120_AddShiftExtensionAndDoubleShiftTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907300540377_AddColumnIsOTEligibleinStaffOfficial.resx">
+      <DependentUpon>201907300540377_AddColumnIsOTEligibleinStaffOfficial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907301121240_AddColumnForIsmanualStatusToExHrsWrkdByinAttendancedata.resx">
+      <DependentUpon>201907301121240_AddColumnForIsmanualStatusToExHrsWrkdByinAttendancedata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907311522430_increaseMaxlengthInELATable.resx">
+      <DependentUpon>201907311522430_increaseMaxlengthInELATable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910120740456_RemovedIdentityToIdOfShiftExtension.resx">
+      <DependentUpon>201910120740456_RemovedIdentityToIdOfShiftExtension.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008110700432_AddedField_IsMobileAppEligible_In_StaffOfficial.resx">
+      <DependentUpon>202008110700432_AddedField_IsMobileAppEligible_In_StaffOfficial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008110744526_AddedTable_MobileSwipeTransactions.resx">
+      <DependentUpon>202008110744526_AddedTable_MobileSwipeTransactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011021010181_AlterColumnRequestApplication15102020.resx">
+      <DependentUpon>202011021010181_AlterColumnRequestApplication15102020.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

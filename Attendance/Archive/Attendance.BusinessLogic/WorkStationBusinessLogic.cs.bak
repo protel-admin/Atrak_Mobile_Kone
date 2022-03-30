@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using Attendance.Model;
+using Attendance.Repository;
+
+namespace Attendance.BusinessLogic
+{
+   public  class WorkStationBusinessLogic
+    {
+       WorkStationRepository wrkRep = new WorkStationRepository();
+       public List<WorkStationList> GetAllWorkStation()
+        {
+
+            var result = wrkRep.GetAllWorkStation();
+            return result;
+        }
+
+       public void saveWorkstationHistory(WorkstationAllocation wa)
+       {
+           wrkRep.saveWorkstationHistory(wa);
+         
+       }
+    }
+}
